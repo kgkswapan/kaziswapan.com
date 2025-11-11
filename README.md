@@ -1,0 +1,1 @@
+# kaziswapan.com — clean init
