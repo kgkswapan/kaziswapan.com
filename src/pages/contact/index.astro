@@ -1,5 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
 import Main from "@/layouts/Main.astro";
 import Hr from "@/components/Hr.astro";
 import LinkButton from "@/components/LinkButton.astro";
@@ -7,6 +9,7 @@ import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 ---
 
 <Layout>
+  <Header />
   <Main
     pageTitle="Contact"
     pageDesc="The fastest ways to connect with me. I reply within a day on weekdays."
@@ -19,8 +22,8 @@ import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
       <ul class="list-disc space-y-2 ps-5">
         <li>
           <strong>Email:</strong>
-          <a class="underline decoration-dashed underline-offset-4" href="mailto:hello@kaziswapan.com">
-            hello@kaziswapan.com
+          <a class="underline decoration-dashed underline-offset-4" href="mailto:kazi.swapan@gmail.com">
+            kazi.swapan@gmail.com
           </a>
           — for projects, mentorship, or consulting opportunities.
         </li>
@@ -35,10 +38,10 @@ import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
           <strong>LinkedIn:</strong>
           <a
             class="underline decoration-dashed underline-offset-4"
-            href="https://www.linkedin.com/in/kaziswapan/"
+            href="https://www.linkedin.com/in/kgkswapan/"
             target="_blank"
           >
-            linkedin.com/in/kaziswapan
+            linkedin.com/in/kgkswapan
           </a>
           — professional updates and quick introductions.
         </li>
@@ -69,7 +72,7 @@ import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
         context intact. I’m equally comfortable pairing virtually or leaving rich async feedback.
       </p>
       <LinkButton
-        href="mailto:hello@kaziswapan.com"
+        href="mailto:kazi.swapan@gmail.com"
         class="inline-flex items-center gap-2 rounded-full border border-transparent bg-accent px-5 py-2 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-accent/90 dark:text-slate-900"
       >
         Email Kazi
@@ -77,4 +80,5 @@ import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
       </LinkButton>
     </section>
   </Main>
+  <Footer />
 </Layout>

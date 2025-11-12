@@ -1,9 +1,9 @@
 export const SITE = {
   website: "https://kaziswapan.com",
   author: "Kazi Gulam Kadar",
-  profile: "https://www.linkedin.com/in/kaziswapan/",
+  profile: "https://www.linkedin.com/in/kgkswapan/",
   desc: "Portfolio, projects, and notes from technologist-investor Kazi Gulam Kadar.",
-  title: "kaziswapan.com",
+  title: "Kazi G. Kadar",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerIndex: 3,

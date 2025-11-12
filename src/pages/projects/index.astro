@@ -1,5 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
 import Main from "@/layouts/Main.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
@@ -98,6 +100,7 @@ const projectGroups = [
 ---
 
 <Layout>
+  <Header />
   <Main
     pageTitle="Projects"
     pageDesc="A snapshot of the systems, tools, and experiments powering my investment and research work."
@@ -145,4 +148,5 @@ const projectGroups = [
       </section>
     ))}
   </Main>
+  <Footer />
 </Layout>
