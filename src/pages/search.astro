@@ -5,14 +5,23 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import { SITE } from "@/config";
+import { withBase } from "@/utils/withBase";
 
-const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
+const backUrl = SITE.showBackButton ? withBase(Astro.url.pathname) : withBase("/");
+const baseUrl = withBase("/");
+const pagefindUrl = withBase("pagefind/");
 ---
 
 <Layout title={`Search | ${SITE.title}`}>
   <Header />
   <Main pageTitle="Search" pageDesc="Search any article ...">
-    <div id="pagefind-search" transition:persist data-backurl={backUrl}></div>
+    <div
+      id="pagefind-search"
+      transition:persist
+      data-backurl={backUrl}
+      data-base={baseUrl}
+      data-pagefind={pagefindUrl}
+    ></div>
   </Main>
   <Footer />
 </Layout>
@@ -24,6 +33,8 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
 
     if (!pageFindSearch) return;
 
+    const baseUrl = pageFindSearch.dataset.base ?? "/";
+    const pagefindUrl = pageFindSearch.dataset.pagefind ?? "/pagefind/";
     const params = new URLSearchParams(window.location.search);
 
     const onIdle = window.requestIdleCallback || (cb => setTimeout(cb, 1));
@@ -47,6 +58,8 @@ const backUrl = SITE.showBackButton ? `${Astro.url.pathname}` : "/";
         element: "#pagefind-search",
         showSubResults: true,
         showImages: false,
+        baseUrl,
+        pagefindUrl,
         processTerm: function (term: string) {
           params.set("q", term); // Update the `q` parameter in the URL
           history.replaceState(history.state, "", "?" + params.toString()); // Push the new URL without reloading
