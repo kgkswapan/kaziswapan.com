@@ -1,0 +1,148 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Main from "@/layouts/Main.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+
+const projectGroups = [
+  {
+    id: "trading-infrastructure",
+    title: "Trading Infrastructure",
+    summary:
+      "Repeatable foundations for research, execution prep, reconciliation, and reporting. Built to keep discretionary and systematic desks aligned.",
+    projects: [
+      {
+        name: "OpenTradeInfra Core",
+        description:
+          "Service-oriented toolkit for sourcing market data, normalizing positions, and sharing execution-ready views with the desk.",
+        stack: "Python · FastAPI · Redis · Postgres",
+        status: "In active development",
+        href: "https://github.com/kgkswapan",
+      },
+      {
+        name: "Desk Snapshot CLI",
+        description:
+          "Command-line utility that compiles P&L, greeks, and compliance checkpoints into a single shareable packet.",
+        stack: "Python · Rich CLI · GitHub Actions",
+        status: "Private research build",
+      },
+    ],
+  },
+  {
+    id: "automation-and-scripting",
+    title: "Automation & Scripting",
+    summary:
+      "Lightweight utilities that shrink manual drags — from pulling broker statements to handing off documentation.",
+    projects: [
+      {
+        name: "Ops Automations",
+        description:
+          "Task runners that download broker data, reconcile fills, and raise alerts when thresholds are breached.",
+        stack: "Node.js · Playwright · Notion API",
+        status: "Internal use",
+      },
+      {
+        name: "Notebook Templates",
+        description:
+          "Jupyter/Quarto templates for exploratory analysis, scenario testing, and communicating decisions.",
+        stack: "Python · Jupyter · Plotly",
+        status: "Published as open notes",
+      },
+    ],
+  },
+  {
+    id: "financial-models",
+    title: "Financial Models",
+    summary:
+      "Transparent spreadsheets and scripts for personal finance, valuation, and portfolio construction.",
+    projects: [
+      {
+        name: "Personal Finance OS",
+        description:
+          "A cash-flow, runway, and net-worth tracker with scenario toggles for career, geography, and risk tolerance.",
+        stack: "Google Sheets · Apps Script · Python",
+        status: "MVP live",
+      },
+      {
+        name: "Research Library",
+        description:
+          "Valuation + macro workbooks paired with scripts to keep data fresh and assumptions documented.",
+        stack: "Excel · Power Query · Pandas",
+        status: "Shared on request",
+      },
+    ],
+  },
+  {
+    id: "tools-and-experiments",
+    title: "Tools & Experiments",
+    summary:
+      "Smaller artifacts that explore interface ideas, operating checklists, and thinking systems.",
+    projects: [
+      {
+        name: "Decision Journals",
+        description:
+          "Semi-structured templates that capture hypotheses, triggers, and post-mortems for investments and projects.",
+        stack: "Notion · Markdown · Obsidian",
+        status: "Published as note series",
+      },
+      {
+        name: "Learning Engine",
+        description:
+          "Automates spaced reviews of research PDFs, saved highlights, and code snippets.",
+        stack: "Python · SQLite · Raycast",
+        status: "Prototype",
+      },
+    ],
+  },
+];
+---
+
+<Layout>
+  <Main
+    pageTitle="Projects"
+    pageDesc="A snapshot of the systems, tools, and experiments powering my investment and research work."
+  >
+    {projectGroups.map(group => (
+      <section id={group.id} class="mb-12 scroll-mt-24">
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+          <div>
+            <h2 class="text-xl font-semibold">{group.title}</h2>
+            <p class="mt-1 text-base text-muted">{group.summary}</p>
+          </div>
+          <LinkButton
+            href={`/contact?topic=${group.id}`}
+            class="rounded-full border border-accent/60 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent sm:self-end"
+          >
+            Discuss this track
+            <IconArrowRight class="inline-block rtl:-rotate-180" />
+          </LinkButton>
+        </div>
+        <div class="mt-6 grid gap-5 md:grid-cols-2">
+          {group.projects.map(project => (
+            <article class="rounded-2xl border border-stone-200/70 bg-surface/80 p-5 dark:border-stone-700/60 dark:bg-slate-900/40">
+              <p class="text-xs uppercase tracking-[0.4em] text-accent">Focus</p>
+              <h3 class="mt-2 text-lg font-semibold">{project.name}</h3>
+              <p class="mt-2 text-sm text-muted">{project.description}</p>
+              <p class="mt-4 text-xs uppercase tracking-wide text-muted">
+                Stack: {project.stack}
+              </p>
+              <p class="mt-1 text-xs font-semibold text-emerald-600 dark:text-emerald-300">
+                {project.status}
+              </p>
+              {project.href && (
+                <LinkButton
+                  class="mt-4 rounded-full border border-accent/60 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
+                  href={project.href}
+                  target="_blank"
+                >
+                  View details
+                  <IconArrowRight class="inline-block rtl:-rotate-180" />
+                </LinkButton>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+  </Main>
+</Layout>

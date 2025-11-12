@@ -1,0 +1,88 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Main from "@/layouts/Main.astro";
+import Card from "@/components/Card.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import Hr from "@/components/Hr.astro";
+import getSortedPosts from "@/utils/getSortedPosts";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+
+const posts = await getCollection("blog");
+const sortedPosts = getSortedPosts(posts);
+const curatedPosts = sortedPosts.slice(0, 6);
+
+const noteSections = [
+  {
+    title: "Market & Investing Thoughts",
+    summary:
+      "Macro notes, positioning frameworks, and risk management approaches captured after real conversations or portfolio moves.",
+  },
+  {
+    title: "Technical Writeups",
+    summary:
+      "Step-by-step breakdowns of trading infrastructure, automation scripts, and research workflows.",
+  },
+  {
+    title: "Productivity & Philosophy",
+    summary:
+      "Operating principles, rituals, and experiments drawn from decision journals and personal systems.",
+  },
+  {
+    title: "Life & Learning Reflections",
+    summary:
+      "Honest check-ins on career arcs, capability building, and what it means to stay an independent thinker.",
+  },
+];
+---
+
+<Layout>
+  <Main
+    pageTitle="Notes"
+    pageDesc="Living documentation of what I’m learning — from markets and tooling to philosophy and personal finance."
+  >
+    <section class="mb-10">
+      <p>
+        Every note is written to be practical: why something matters, what the framework looks like, and
+        how I’m applying it inside my work. Expect concise essays, annotated screenshots, and links to
+        the repos or spreadsheets that back up the idea.
+      </p>
+    </section>
+
+    <section class="mb-10 grid gap-6 md:grid-cols-2">
+      {noteSections.map(section => (
+        <article class="rounded-2xl border border-stone-200/60 bg-surface/80 p-5 dark:border-stone-700/70 dark:bg-slate-900/40">
+          <h2 class="text-lg font-semibold">{section.title}</h2>
+          <p class="mt-2 text-sm text-muted">{section.summary}</p>
+        </article>
+      ))}
+    </section>
+
+    <Hr />
+
+    {curatedPosts.length > 0 && (
+      <section class="pt-10">
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+          <div>
+            <h2 class="text-xl font-semibold">Latest Writing</h2>
+            <p class="text-base text-muted">
+              Recently published essays and project logs. Explore archives for the full catalog.
+            </p>
+          </div>
+          <LinkButton
+            href="/posts"
+            class="rounded-full border border-accent/60 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent sm:self-end"
+          >
+            View blog index
+            <IconArrowRight class="inline-block rtl:-rotate-180" />
+          </LinkButton>
+        </div>
+        <ul>
+          {curatedPosts.map(post => (
+            <Card variant="h3" {...post} />
+          ))}
+        </ul>
+      </section>
+    )}
+  </Main>
+</Layout>

@@ -3,35 +3,38 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-AstroPaper is a minimal, accessible and SEO-friendly blog theme built with [Astro](https://astro.build/) and [Tailwind CSS](https://tailwindcss.com/).
+I am **Kazi Gulam Kadar** — a technologist-investor focused on building resilient trading infrastructure, transparent financial models, and practical decision-making systems. kaziswapan.com is the place where I connect disciplined investing with modern engineering, sharing the playbooks, experiments, and reflections that guide my work.
 
-![Astro Paper](public/astropaper-og.jpg)
+## Profile & Background
 
-AstroPaper provides a solid foundation for blogs, or even portfolios\_ with full markdown support, built-in dark mode, and a clean layout that works out-of-the-box.
+- Financial technologist with hands-on experience across trading operations, investment research, and software automation.  
+- Blend of discretionary insight and systematic rigor — I document models, design tooling, and publish what I learn in public.  
+- Currently bootstrapping _OpenTradeInfra_, a modular toolkit for research workflows, signal testing, and desk automation.
 
-The blog posts in this theme also serve as guides, docs or example articles\_ making AstroPaper a flexible starting point for your next content-driven site.
+## Career Highlights
 
-## Features
+- Built end-to-end trading utilities that streamline reconciliation, risk snapshots, and execution readiness.  
+- Modeled multi-asset portfolios, scenario stress tests, and personal finance systems for long-term planning.  
+- Led cross-functional projects that married quantitative research with real-world operations and compliance needs.
 
-AstroPaper comes with a set of useful features that make content publishing easy and effective:
+## Certifications & Learning
 
-- SEO-friendly
-- Fast performance
-- Light & dark mode
-- Highly customizable
-- Organizable blog posts
-- Responsive & accessible
-- Static search with [PageFind](https://pagefind.app/)
-- Automatic social image generation
+- Financial modeling & valuation programs (self-driven + cohort based).  
+- Algo-trading and infrastructure courses focused on Python, Node.js, and cloud tooling.  
+- Continuous reading loop on market microstructure, behavioral finance, and systems thinking.
 
-and so much more.
+## Skills & Tools
 
-## Show your support
+- **Languages & Frameworks:** Python, TypeScript/Node.js, Astro, TailwindCSS.  
+- **Data & Research:** Pandas, Polars, Jupyter, SQLite/Postgres, REST/WebSocket integrations.  
+- **Infra & Ops:** GitHub Actions, Docker, Linux automation, Git for disciplined change tracking.
 
-If you like [AstroPaper](https://github.com/satnaing/astro-paper), consider giving it a star ⭐️.
+## Philosophy / Personal Note
 
-Found a bug 🐛 or have an improvement ✨ in mind? Feel free to open an [issue](https://github.com/satnaing/astro-paper/issues), submit a [pull request](https://github.com/satnaing/astro-paper/pulls) or start a [discussion](https://github.com/satnaing/astro-paper/discussions).
+Operate like a rational long-term investor: stay curious, document the process, test ideas in public, and optimize for clarity over noise. The website mirrors that belief — minimal, fast, and built to evolve as my projects and thinking expand.
 
-If you find this theme helpful, you can also [sponsor me on GitHub](https://github.com/sponsors/satnaing) or [buy me a coffee](https://buymeacoffee.com/satnaing) to show your support — every penny counts.
+## Currently Building
 
-Kyay zuu! 🙏🏼
+- **OpenTradeInfra** — research-to-execution tooling for traders and analysts.  
+- **Financial Models Library** — reusable spreadsheets + scripts for planning and portfolio design.  
+- **Automation Tools** — CLI + notebook utilities that compress repetitive desk work.

@@ -16,47 +16,79 @@ import { SOCIALS } from "@/constants";
 const posts = await getCollection("blog");
 
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const recentPosts = sortedPosts.slice(0, SITE.postPerIndex);
+
+const featuredProjects = [
+  {
+    title: "OpenTradeInfra",
+    description:
+      "Modular research-to-execution toolkit that keeps discretionary and systematic workflows in sync.",
+    badge: "Trading Infrastructure",
+    stack: "Python · FastAPI · Postgres · GitHub Actions",
+    href: "/projects#trading-infrastructure",
+  },
+  {
+    title: "Financial Models Library",
+    description:
+      "Reusable valuation, asset allocation, and personal finance models with transparent assumptions.",
+    badge: "Financial Models",
+    stack: "Excel · Google Sheets · Python · Polars",
+    href: "/projects#financial-models",
+  },
+  {
+    title: "Ops & Automation Tools",
+    description:
+      "CLI scripts and notebook helpers that reconcile trades, publish snapshots, and document playbooks.",
+    badge: "Automation & Scripting",
+    stack: "Node.js · Python · Linux · Notion API",
+    href: "/projects#automation-and-scripting",
+  },
+];
 ---
 
 <Layout>
   <Header />
   <main id="main-content" data-layout="index">
     <section id="hero" class="pt-8 pb-6">
-      <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-        Mingalaba
-      </h1>
-      <a
-        target="_blank"
-        href="/rss.xml"
-        class="inline-block"
-        aria-label="rss feed"
-        title="RSS Feed"
-      >
-        <IconRss
-          width={20}
-          height={20}
-          class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
-        />
-        <span class="sr-only">RSS Feed</span>
-      </a>
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
+          Technologist ✕ Investor
+        </h1>
+        <a
+          target="_blank"
+          href="/rss.xml"
+          class="inline-block"
+          aria-label="rss feed"
+          title="RSS Feed"
+        >
+          <IconRss
+            width={20}
+            height={20}
+            class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
+          />
+          <span class="sr-only">RSS Feed</span>
+        </a>
+      </div>
 
       <p>
-        AstroPaper is a minimal, responsive, accessible and SEO-friendly Astro
-        blog theme. This theme follows best practices and provides accessibility
-        out of the box. Light and dark mode are supported by default. Moreover,
-        additional color schemes can also be configured.
+        I’m <strong>Kazi Gulam Kadar</strong>, building a high-credibility space for trading infrastructure,
+        financial modeling, and reflective notes on personal finance and decision-making. Everything
+        is documented, reproducible, and shipped in public.
       </p>
-      <p class="mt-2">
-        Read the blog posts or check
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
         <LinkButton
-          class="underline decoration-dashed underline-offset-4 hover:text-accent"
-          href="https://github.com/satnaing/astro-paper#readme"
+          href="/projects"
+          class="rounded-full border border-transparent bg-accent px-5 py-2 text-center font-semibold text-white transition hover:-translate-y-0.5 hover:bg-accent/90 dark:text-slate-900"
         >
-          README
-        </LinkButton> for more info.
-      </p>
+          Explore Projects
+        </LinkButton>
+        <LinkButton
+          class="rounded-full border border-accent/60 px-5 py-2 text-center font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent sm:ms-2"
+          href="/about"
+        >
+          Read the Story
+        </LinkButton>
+      </div>
       {
         // only display if at least one social link is enabled
         SOCIALS.length > 0 && (
@@ -70,42 +102,118 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 
     <Hr />
 
-    {
-      featuredPosts.length > 0 && (
-        <>
-          <section id="featured" class="pt-12 pb-6">
-            <h2 class="text-2xl font-semibold tracking-wide">Featured</h2>
-            <ul>
-              {featuredPosts.map(data => (
-                <Card variant="h3" {...data} />
-              ))}
-            </ul>
-          </section>
-          {recentPosts.length > 0 && <Hr />}
-        </>
-      )
-    }
+    <section id="featured-projects" class="pt-12 pb-6">
+      <h2 class="text-2xl font-semibold tracking-wide">Featured Projects</h2>
+      <p class="mb-6 mt-2 text-base text-muted">
+        Systems that combine disciplined investing, transparent automation, and shareable playbooks.
+      </p>
+      <div class="grid gap-6 md:grid-cols-3">
+        {featuredProjects.map(project => (
+          <article class="rounded-xl border border-stone-200/50 bg-surface px-5 py-6 dark:border-stone-700/80 dark:bg-slate-900/40">
+            <p class="text-xs font-semibold uppercase tracking-widest text-accent">
+              {project.badge}
+            </p>
+            <h3 class="mt-2 text-xl font-semibold">{project.title}</h3>
+            <p class="mt-3 text-sm text-muted">{project.description}</p>
+            <p class="mt-4 text-xs uppercase tracking-wide text-muted">
+              {project.stack}
+            </p>
+            <LinkButton class="mt-5" href={project.href}>
+              View focus area
+              <IconArrowRight class="inline-block rtl:-rotate-180" />
+            </LinkButton>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <Hr />
 
     {
       recentPosts.length > 0 && (
         <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+            <div>
+              <h2 class="text-2xl font-semibold tracking-wide">Recent Notes</h2>
+              <p class="text-base text-muted">
+                Fast takes on markets, tooling experiments, and personal operating principles.
+              </p>
+            </div>
+            <LinkButton
+              href="/notes"
+              class="rounded-full border border-accent/60 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent sm:self-end"
+            >
+              Browse all notes
+            </LinkButton>
+          </div>
           <ul>
-            {recentPosts.map(
-              (data, index) =>
-                index < SITE.postPerIndex && <Card variant="h3" {...data} />
-            )}
+            {recentPosts.map(data => (
+              <Card variant="h3" {...data} />
+            ))}
           </ul>
         </section>
       )
     }
 
-    <div class="my-8 text-center">
-      <LinkButton href="/posts/">
-        All Posts
-        <IconArrowRight class="inline-block rtl:-rotate-180" />
-      </LinkButton>
-    </div>
+    <Hr />
+
+    <section id="about-preview" class="pt-12 pb-6">
+      <div class="grid gap-6 md:grid-cols-2 md:items-center">
+        <div>
+          <h2 class="text-2xl font-semibold tracking-wide">About Kazi</h2>
+          <p class="mt-3 text-base">
+            I build transparent systems that help investors and builders make better calls. From trade
+            operations to learning loops, everything is documented, tested, and shared.
+          </p>
+          <ul class="mt-4 list-disc space-y-1 ps-5 text-base text-muted">
+            <li>Finance × technology background with hands-on automation work.</li>
+            <li>Projects span trading infrastructure, personal finance models, and desk tooling.</li>
+            <li>Operating principles: clarity, repeatability, long-term thinking.</li>
+          </ul>
+          <LinkButton
+            class="mt-5 rounded-full border border-accent/60 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
+            href="/about"
+          >
+            More about the journey
+            <IconArrowRight class="inline-block rtl:-rotate-180" />
+          </LinkButton>
+        </div>
+        <div class="rounded-2xl border border-stone-200/60 bg-surface/70 p-6 dark:border-stone-700/80 dark:bg-slate-900/40">
+          <p class="text-xs uppercase tracking-[0.4em] text-accent">Focus Areas</p>
+          <ul class="mt-4 space-y-2 text-base">
+            <li>• Trading infrastructure & tooling</li>
+            <li>• Financial modeling & scenario design</li>
+            <li>• Automation & repeatable workflows</li>
+            <li>• Reflective notes on systems thinking</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <Hr />
+
+    <section id="contact-cta" class="py-12 text-center">
+      <p class="text-sm uppercase tracking-[0.3em] text-muted">Ready to connect?</p>
+      <h2 class="mt-4 text-3xl font-semibold">Let’s build rational systems together.</h2>
+      <p class="mx-auto mt-4 max-w-2xl text-base">
+        Whether it’s trading ops, automation proof-of-concepts, or long-form thinking, I’m always
+        interested in thoughtful collaborations. Drop a note — I usually respond within 24 hours.
+      </p>
+      <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <LinkButton
+          href="mailto:hello@kaziswapan.com"
+          class="rounded-full border border-transparent bg-accent px-6 py-2 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-accent/90 dark:text-slate-900"
+        >
+          Email me
+        </LinkButton>
+        <LinkButton
+          class="rounded-full border border-accent/60 px-5 py-2 font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent sm:ms-2"
+          href="/contact"
+        >
+          View contact page
+        </LinkButton>
+      </div>
+    </section>
   </main>
   <Footer />
 </Layout>
