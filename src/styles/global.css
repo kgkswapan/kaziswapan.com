@@ -1,7 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 @import "./typography.css";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+:root {
+  --font-body: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+}
 
 :root,
 html[data-theme="light"] {
@@ -39,6 +45,23 @@ html[data-theme="dark"] {
   }
   body {
     @apply flex min-h-svh flex-col bg-background font-mono text-foreground selection:bg-accent/75 selection:text-background;
+    font-family: var(--font-body);
+  }
+  header,
+  footer,
+  nav,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a,
+  button,
+  input,
+  textarea {
+    font-family: inherit;
   }
   a,
   button {
@@ -48,7 +71,7 @@ html[data-theme="dark"] {
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
-  section,
+  section:where(:not(.section-unstyled)),
   footer {
     @apply mx-auto max-w-app px-4;
   }
