@@ -8,8 +8,8 @@ import { SITE } from "@/config";
 import { withBase } from "@/utils/withBase";
 
 const backUrl = SITE.showBackButton ? withBase(Astro.url.pathname) : withBase("/");
+const bundlePath = withBase("pagefind/");
 const baseUrl = withBase("/");
-const pagefindUrl = withBase("pagefind/");
 ---
 
 <Layout title={`Search | ${SITE.title}`}>
@@ -20,7 +20,7 @@ const pagefindUrl = withBase("pagefind/");
       transition:persist
       data-backurl={backUrl}
       data-base={baseUrl}
-      data-pagefind={pagefindUrl}
+      data-bundle={bundlePath}
     ></div>
   </Main>
   <Footer />
@@ -34,7 +34,7 @@ const pagefindUrl = withBase("pagefind/");
     if (!pageFindSearch) return;
 
     const baseUrl = pageFindSearch.dataset.base ?? "/";
-    const pagefindUrl = pageFindSearch.dataset.pagefind ?? "/pagefind/";
+    const bundlePath = pageFindSearch.dataset.bundle ?? "/pagefind/";
     const params = new URLSearchParams(window.location.search);
 
     const onIdle = window.requestIdleCallback || (cb => setTimeout(cb, 1));
@@ -58,8 +58,10 @@ const pagefindUrl = withBase("pagefind/");
         element: "#pagefind-search",
         showSubResults: true,
         showImages: false,
-        baseUrl,
-        pagefindUrl,
+        bundlePath,
+        pagefind_options: {
+          baseUrl,
+        },
         processTerm: function (term: string) {
           params.set("q", term); // Update the `q` parameter in the URL
           history.replaceState(history.state, "", "?" + params.toString()); // Push the new URL without reloading
