@@ -1,4 +1,6 @@
 ---
+import { withBase } from "@/utils/withBase";
+
 export interface Props {
   id?: string;
   href: string;
@@ -22,6 +24,11 @@ const {
 } = Astro.props;
 
 const relAttr = rel ?? (target === "_blank" ? "noreferrer noopener" : undefined);
+const normalizedHref = href ?? "";
+const computedHref =
+  normalizedHref.startsWith("/") && !normalizedHref.startsWith("//")
+    ? withBase(normalizedHref)
+    : normalizedHref || "#";
 ---
 
 {
@@ -37,7 +44,7 @@ const relAttr = rel ?? (target === "_blank" ? "noreferrer noopener" : undefined)
   ) : (
     <a
       id={id}
-      {href}
+      href={computedHref}
       class:list={["group inline-block hover:text-accent", className]}
       aria-label={ariaLabel}
       title={title}

@@ -12,6 +12,7 @@ import IconRss from "@/assets/icons/IconRss.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
 import { SOCIALS } from "@/constants";
+import { withBase } from "@/utils/withBase";
 
 const posts = await getCollection("blog");
 
@@ -56,7 +57,7 @@ const featuredProjects = [
         </h1>
         <a
           target="_blank"
-          href="/rss.xml"
+          href={withBase("rss.xml")}
           class="inline-block"
           aria-label="rss feed"
           title="RSS Feed"

@@ -7,6 +7,7 @@ import IconSunHigh from "@/assets/icons/IconSunHigh.svg";
 import IconMenuDeep from "@/assets/icons/IconMenuDeep.svg";
 import LinkButton from "./LinkButton.astro";
 import { SITE } from "@/config";
+import { withBase } from "@/utils/withBase";
 
 const { pathname } = Astro.url;
 
@@ -47,7 +48,7 @@ const navLinks = [
       class="relative flex w-full items-baseline justify-between bg-background p-4 sm:items-center sm:py-6"
     >
       <a
-        href="/"
+        href={withBase("/")}
         class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"
       >
         {SITE.title}
@@ -77,7 +78,10 @@ const navLinks = [
         >
           {navLinks.map(link => (
             <li class="col-span-2">
-              <a href={link.href} class:list={{ "active-nav": isActive(link.href) }}>
+              <a
+                href={withBase(link.href)}
+                class:list={{ "active-nav": isActive(link.href) }}
+              >
                 {link.label}
               </a>
             </li>
