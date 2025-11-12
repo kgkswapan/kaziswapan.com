@@ -11,9 +11,13 @@ import {
 import { transformerFileName } from "./src/utils/transformers/fileName";
 import { SITE } from "./src/config";
 
+const DEPLOY_SITE = process.env.ASTRO_SITE ?? SITE.website;
+const DEPLOY_BASE = process.env.ASTRO_BASE ?? "/";
+
 // https://astro.build/config
 export default defineConfig({
-  site: SITE.website,
+  site: DEPLOY_SITE,
+  base: DEPLOY_BASE,
   integrations: [
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),

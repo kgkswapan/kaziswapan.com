@@ -18,6 +18,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ASTRO_SITE: https://kgkswapan.github.io/kaziswapan.com
+      ASTRO_BASE: /kaziswapan.com
     steps:
       - name: "☁️ Checkout repository"
         uses: actions/checkout@v4
