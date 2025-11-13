@@ -3,9 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Main from "@/layouts/Main.astro";
-import Hr from "@/components/Hr.astro";
-import LinkButton from "@/components/LinkButton.astro";
-import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+import ContactForm from "@/components/ContactForm.astro";
 ---
 
 <Layout>
@@ -55,6 +53,15 @@ import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
             </a>
           </li>
         </ul>
+      </section>
+
+      <section class="section-unstyled space-y-3">
+        <h3 class="text-lg font-semibold">Send a message</h3>
+        <p>
+          Prefer to keep the conversation on the site? Use the form below and
+          I’ll receive it directly in my inbox.
+        </p>
+        <ContactForm />
       </section>
 
       <section class="section-unstyled space-y-3">

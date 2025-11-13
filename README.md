@@ -133,6 +133,11 @@ docker build -t astropaper .
 docker run -p 4321:80 astropaper
 ```
 
+## Environment Variables
+
+- `PUBLIC_GOOGLE_SITE_VERIFICATION`: optional tag for Google Search Console.
+- `PUBLIC_WEB3FORMS_KEY`: optional key that enables the Contact page form.
+
 ## Google Site Verification (optional)
 
 You can easily add your [Google Site Verification HTML tag](https://support.google.com/webmasters/answer/9008080#meta_tag_verification&zippy=%2Chtml-tag) in AstroPaper using an environment variable. This step is optional. If you don't add the following environment variable, the google-site-verification tag won't appear in the HTML `<head>` section.
@@ -143,6 +148,19 @@ PUBLIC_GOOGLE_SITE_VERIFICATION=your-google-site-verification-value
 ```
 
 > See [this discussion](https://github.com/satnaing/astro-paper/discussions/334#discussioncomment-10139247) for adding AstroPaper to the Google Search Console.
+
+## Contact Form
+
+The Contact page includes a simple form that pipes submissions to
+[Web3Forms](https://web3forms.com/). To enable it:
+
+1. Sign up for Web3Forms and create an access key that sends mail to your
+   desired inbox.
+2. Copy `.env.example` to `.env` and set `PUBLIC_WEB3FORMS_KEY=<your access key>`.
+3. Restart `pnpm run dev` (or rebuild) so Astro can embed the key at build time.
+
+If no key is provided the page simply shows a helper message, so the site still
+builds cleanly without the form backend.
 
 ## 🧞 Commands
 

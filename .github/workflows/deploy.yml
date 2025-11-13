@@ -21,6 +21,7 @@ jobs:
     env:
       ASTRO_SITE: https://kaziswapan.com/
       ASTRO_BASE: /
+      PUBLIC_WEB3FORMS_KEY: 53e66333-14b0-457e-85d3-9031938a2a97
     steps:
       - name: "☁️ Checkout repository"
         uses: actions/checkout@v4
