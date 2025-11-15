@@ -1,0 +1,32 @@
+---
+title: "About"
+description: "About Kazi G. Kadar — bridging finance, technology, and trading systems."
+---
+
+# About Me
+
+I’m **Kazi Gulam Kadar**, a finance and technology professional based in Paris, France.  
+I work in the **technology division of a leading financial services firm**, supporting and improving **trading and post-trade systems** across **multiple asset classes, including equities, fixed income, commodities, ETFs, and derivatives**, for global markets.
+
+Over the past few years, I’ve developed a profile that blends **market knowledge with production engineering**.  
+My focus is on **systems reliability, automation, and data integrity**—the quiet foundations that allow traders and risk teams to operate with confidence.
+
+Having started on the functional side of investment operations and gradually deepened into the infrastructure layer, I now work hands-on with **Linux and Windows Server environments**, using **Python, PowerShell, SQL, and automation tooling** to make trading systems faster, safer, and more observable.  
+My day-to-day work often bridges production engineering with market operations—optimizing processes, integrating monitoring solutions, and improving system reliability across multi-asset platforms.
+
+Academically, I hold a **Master’s in Finance** and certifications including **CFA Level 1** and **FMVA**, which shape how I connect financial logic with technical execution.  
+My ongoing learning extends into **AI, DevOps, and quantitative methods**, all geared toward understanding how technology drives modern market behavior.
+
+This website is a place to document that journey—learning projects, open-source experiments, and reflections on how trading infrastructure evolves.  
+It’s not a résumé; it’s a record of curiosity and progress.
+
+---
+
+## Beyond Work
+
+Outside the terminal and trading screens, I enjoy exploring markets from an investor’s perspective, building small automation tools, and spending time outdoors around Paris.  
+I believe that consistent learning and technical precision create the kind of edge that matters—whether in systems, markets, or life.
+
+---
+
+> All opinions expressed here are my own and do not represent those of my employer.

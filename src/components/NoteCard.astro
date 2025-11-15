@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Datetime from "@/components/Datetime.astro";
+import Tag from "@/components/Tag.astro";
+import { slugifyStr } from "@/utils/slugify";
+import getNoteSlug from "@/utils/getNoteSlug";
+
+interface Props {
+  note: CollectionEntry<"notes">;
+}
+
+const { note } = Astro.props;
+const { title, summary, pubDatetime, tags, timezone } = note.data;
+const slug = getNoteSlug(note);
+const href = `/notes/${slug}/`;
+---
+
+<article class="rounded-2xl border border-border/80 bg-background/70 p-5 transition hover:-translate-y-0.5 hover:border-accent dark:bg-slate-900/40">
+  <a href={href} class="group block no-underline">
+    <h3 class="text-xl font-semibold group-hover:text-accent">{title}</h3>
+  </a>
+  <Datetime {pubDatetime} {timezone} class="text-sm text-muted" />
+  <p class="mt-3 text-sm text-muted">{summary}</p>
+  <ul class="mt-4 flex flex-wrap gap-2">
+    {tags.map(tag => (
+      <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />
+    ))}
+  </ul>
+</article>

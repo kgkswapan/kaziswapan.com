@@ -1,0 +1,132 @@
+---
+import "@pagefind/default-ui/css/ui.css";
+import { withBase } from "@/utils/withBase";
+
+interface Props {
+  id?: string;
+  backUrl?: string;
+}
+
+const { id = "inline-search", backUrl = "/" } = Astro.props;
+const searchId = `${id}-container`;
+const baseUrl = withBase("/");
+const bundlePath = withBase("pagefind/");
+const resolvedBackUrl = withBase(backUrl);
+---
+
+<div
+  id={searchId}
+  class="space-y-4"
+  data-inline-search
+  data-search-id={searchId}
+  data-backurl={resolvedBackUrl}
+  data-base={baseUrl}
+  data-bundle={bundlePath}
+></div>
+
+<script>
+  function initInlineSearch() {
+    const containers = document.querySelectorAll("[data-inline-search]");
+    if (!containers.length) return;
+
+    const onIdle = window.requestIdleCallback || (cb => setTimeout(cb, 1));
+
+    containers.forEach(containerEl => {
+      const container = containerEl as HTMLElement;
+      if (container.dataset.ready === "true") return;
+
+      const searchId = container.dataset.searchId;
+      if (!searchId) return;
+
+      const params = new URLSearchParams(window.location.search);
+      const bundlePath = container.dataset.bundle ?? "/pagefind/";
+      const baseUrl = container.dataset.base ?? "/";
+      const backUrl = container.dataset.backurl ?? "/";
+
+      onIdle(async () => {
+        // @ts-expect-error - Missing types for @pagefind/default-ui package.
+        const { PagefindUI } = await import("@pagefind/default-ui");
+
+        const searchInstance = new PagefindUI({
+          element: `#${searchId}`,
+          showSubResults: true,
+          showImages: false,
+          bundlePath,
+          pagefind_options: {
+            baseUrl,
+          },
+          processTerm(term: string) {
+            params.set("q", term);
+            history.replaceState(history.state, "", "?" + params.toString());
+
+            sessionStorage.setItem(
+              "backUrl",
+              backUrl + "?" + params.toString()
+            );
+
+            return term;
+          },
+        });
+
+        const query = params.get("q");
+        if (query) {
+          searchInstance.triggerSearch(query);
+        }
+
+        container.dataset.ready = "true";
+      });
+    });
+  }
+
+  document.addEventListener("astro:after-swap", initInlineSearch);
+  initInlineSearch();
+</script>
+
+<style is:global>
+  [data-inline-search] {
+    --pagefind-ui-font: var(--font-body);
+    --pagefind-ui-text: var(--foreground);
+    --pagefind-ui-background: var(--background);
+    --pagefind-ui-border: var(--border);
+    --pagefind-ui-primary: var(--accent);
+    --pagefind-ui-tag: var(--background);
+    --pagefind-ui-border-radius: 0.375rem;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-image-border-radius: 8px;
+    --pagefind-ui-image-box-ratio: 3 / 2;
+
+    form::before {
+      background-color: var(--foreground);
+    }
+
+    input {
+      font-weight: 400;
+      border: 1px solid var(--border);
+    }
+
+    input:focus-visible {
+      outline: 1px solid var(--accent);
+    }
+
+    .pagefind-ui__result-title a {
+      color: var(--accent);
+      outline-offset: 1px;
+      outline-color: var(--accent);
+    }
+
+    .pagefind-ui__result-title a:focus-visible,
+    .pagefind-ui__search-clear:focus-visible {
+      text-decoration-line: none;
+      outline-width: 2px;
+      outline-style: dashed;
+    }
+
+    .pagefind-ui__result:last-of-type {
+      border-bottom: 0;
+    }
+
+    .pagefind-ui__result-nested .pagefind-ui__result-link:before {
+      font-family: system-ui;
+    }
+  }
+</style>

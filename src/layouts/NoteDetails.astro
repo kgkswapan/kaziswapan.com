@@ -1,0 +1,102 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import BackButton from "@/components/BackButton.astro";
+import BackToTopButton from "@/components/BackToTopButton.astro";
+import Datetime from "@/components/Datetime.astro";
+import Tag from "@/components/Tag.astro";
+import { SITE } from "@/config";
+import { slugifyStr } from "@/utils/slugify";
+import noteFilter from "@/utils/noteFilter";
+import getNoteSlug from "@/utils/getNoteSlug";
+
+interface Props {
+  note: CollectionEntry<"notes">;
+  notes: CollectionEntry<"notes">[];
+}
+
+const { note, notes } = Astro.props;
+const { title, summary, pubDatetime, tags, timezone } = note.data;
+
+const { Content } = await render(note);
+
+const layoutProps = {
+  title: `${title} | ${SITE.title}`,
+  description: summary,
+  scrollSmooth: true,
+};
+
+const sortedNotes = notes.filter(noteFilter);
+const currentIndex = sortedNotes.findIndex(item => item.id === note.id);
+const prevNote =
+  currentIndex > 0 ? sortedNotes[currentIndex - 1] : undefined;
+const nextNote =
+  currentIndex !== -1 && currentIndex + 1 < sortedNotes.length
+    ? sortedNotes[currentIndex + 1]
+    : undefined;
+
+const getHref = (noteEntry: CollectionEntry<"notes">) =>
+  `/notes/${getNoteSlug(noteEntry)}/`;
+---
+
+<Layout {...layoutProps}>
+  <Header />
+  <BackButton />
+  <main
+    id="main-content"
+    class="mx-auto w-full max-w-app px-4 pb-12"
+    data-pagefind-body
+  >
+    <h1 class="inline-block text-2xl font-bold text-accent sm:text-3xl">
+      {title}
+    </h1>
+    <div class="my-2">
+      <Datetime {pubDatetime} {timezone} size="lg" />
+    </div>
+
+    <article
+      id="article"
+      class="app-prose mx-auto mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
+    >
+      <Content />
+    </article>
+
+    <ul class="mt-6 flex flex-wrap gap-2">
+      {tags.map(tag => (
+        <Tag tag={slugifyStr(tag)} tagName={tag} />
+      ))}
+    </ul>
+
+    <BackToTopButton />
+
+    {(prevNote || nextNote) && (
+      <div
+        data-pagefind-ignore
+        class="mt-10 grid grid-cols-1 gap-6 border-t border-dashed pt-6 text-sm sm:grid-cols-2"
+      >
+        {
+          prevNote && (
+            <a href={getHref(prevNote)} class="flex gap-2 hover:opacity-80">
+              <span class="text-muted">Previous</span>
+              <span class="font-medium text-accent">{prevNote.data.title}</span>
+            </a>
+          )
+        }
+        {
+          nextNote && (
+            <a
+              href={getHref(nextNote)}
+              class="flex items-end justify-end gap-2 text-end hover:opacity-80 sm:col-start-2"
+            >
+              <span class="text-muted">Next</span>
+              <span class="font-medium text-accent">{nextNote.data.title}</span>
+            </a>
+          )
+        }
+      </div>
+    )}
+  </main>
+  <Footer />
+</Layout>

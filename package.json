@@ -3,8 +3,10 @@
   "type": "module",
   "version": "5.5.0",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/",
+    "dev": "node ./scripts/run-with-log.mjs dev:raw",
+    "dev:raw": "astro dev",
+    "build": "node ./scripts/run-with-log.mjs build:raw",
+    "build:raw": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",

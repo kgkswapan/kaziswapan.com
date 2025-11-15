@@ -13,12 +13,12 @@ export interface Props {
   size?: "sm" | "lg";
   timezone: string | undefined;
   pubDatetime: string | Date;
-  modDatetime: string | Date | undefined | null;
+  modDatetime?: string | Date | null;
 }
 
 const {
   pubDatetime,
-  modDatetime,
+  modDatetime = null,
   size = "sm",
   class: className = "",
   timezone: postTimezone,

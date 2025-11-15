@@ -5,8 +5,10 @@ import IconArrowLeft from "@/assets/icons/IconArrowLeft.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import LinkButton from "./LinkButton.astro";
 
+type PageEntry = CollectionEntry<"blog"> | CollectionEntry<"notes">;
+
 export interface Props {
-  page: Page<CollectionEntry<"blog">>;
+  page: Page<PageEntry>;
 }
 
 const { page } = Astro.props;
