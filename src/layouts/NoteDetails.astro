@@ -6,7 +6,6 @@ import Footer from "@/components/Footer.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
 import Datetime from "@/components/Datetime.astro";
-import Tag from "@/components/Tag.astro";
 import { SITE } from "@/config";
 import { slugifyStr } from "@/utils/slugify";
 import noteFilter from "@/utils/noteFilter";
@@ -63,10 +62,21 @@ const getHref = (noteEntry: CollectionEntry<"notes">) =>
       <Content />
     </article>
 
-    <ul class="mt-6 flex flex-wrap gap-2">
-      {tags.map(tag => (
-        <Tag tag={slugifyStr(tag)} tagName={tag} />
-      ))}
+    <ul class="mt-6 flex flex-wrap gap-2 text-xs font-medium">
+      {tags.map(tag => {
+        const tagSlug = slugifyStr(tag);
+        return (
+          <li>
+            <a
+              href={`/notes/?tag=${tagSlug}`}
+              class="inline-flex items-center rounded-full border border-border/70 px-3 py-1 text-foreground/80 transition hover:border-accent hover:text-accent"
+            >
+              <span class="me-1 text-sm font-semibold text-accent">#</span>
+              {tag}
+            </a>
+          </li>
+        );
+      })}
     </ul>
 
     <BackToTopButton />
@@ -78,9 +88,14 @@ const getHref = (noteEntry: CollectionEntry<"notes">) =>
       >
         {
           prevNote && (
-            <a href={getHref(prevNote)} class="flex gap-2 hover:opacity-80">
-              <span class="text-muted">Previous</span>
-              <span class="font-medium text-accent">{prevNote.data.title}</span>
+            <a
+              href={getHref(prevNote)}
+              class="group flex w-full items-center gap-2 rounded-xl border border-border/70 px-4 py-3 transition hover:-translate-y-0.5 hover:border-accent hover:text-accent"
+            >
+              <span class="text-xs uppercase tracking-wide text-accent">
+                Previous
+              </span>
+              <span class="font-medium">{prevNote.data.title}</span>
             </a>
           )
         }
@@ -88,10 +103,12 @@ const getHref = (noteEntry: CollectionEntry<"notes">) =>
           nextNote && (
             <a
               href={getHref(nextNote)}
-              class="flex items-end justify-end gap-2 text-end hover:opacity-80 sm:col-start-2"
+              class="group flex w-full items-center justify-end gap-2 rounded-xl border border-border/70 px-4 py-3 text-end transition hover:-translate-y-0.5 hover:border-accent hover:text-accent sm:col-start-2"
             >
-              <span class="text-muted">Next</span>
-              <span class="font-medium text-accent">{nextNote.data.title}</span>
+              <span class="text-xs uppercase tracking-wide text-accent">
+                Next
+              </span>
+              <span class="font-medium">{nextNote.data.title}</span>
             </a>
           )
         }
