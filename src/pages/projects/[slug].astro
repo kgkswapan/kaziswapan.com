@@ -1,0 +1,83 @@
+---
+import { render, type CollectionEntry, getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import BackButton from "@/components/BackButton.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import NoteCard from "@/components/NoteCard.astro";
+import getProjectSlug from "@/utils/getProjectSlug";
+import { getCollection as getNotesCollection } from "astro:content";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map(project => ({
+    params: { slug: getProjectSlug(project) },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, summary, tech, link, ssrn, noteTag } = project.data;
+const notes = noteTag
+  ? (await getNotesCollection("notes")).filter(note =>
+      note.data.tags
+        .map(tag => tag.toLowerCase())
+        .includes(noteTag.toLowerCase())
+    )
+  : [];
+---
+
+<Layout title={`${title} | Projects`} description={summary}>
+  <Header />
+  <BackButton />
+  <main class="mx-auto w-full max-w-app px-4 pb-12">
+    <h1 class="text-2xl font-semibold text-foreground sm:text-3xl">{title}</h1>
+    <p class="mt-2 text-base text-foreground/80">{summary}</p>
+    <p class="mt-4 text-sm font-medium text-foreground">
+      <span class="font-semibold text-accent">Tech:</span> {tech}
+    </p>
+    {(link || ssrn) && (
+      <div class="mt-4 flex flex-wrap gap-3">
+        {link && (
+          <LinkButton
+            class="rounded-full border border-accent/70 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
+            href={link}
+            target="_blank"
+          >
+            View on GitHub
+          </LinkButton>
+        )}
+        {ssrn && (
+          <LinkButton
+            class="rounded-full border border-accent/70 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover-border-accent"
+            href={ssrn}
+            target="_blank"
+          >
+            View on SSRN
+          </LinkButton>
+        )}
+      </div>
+    )}
+    <article class="app-prose mx-auto mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)">
+      <Content />
+    </article>
+
+    {notes.length > 0 && (
+      <section class="section-unstyled mt-12 px-0">
+        <h2 class="text-xl font-semibold text-foreground">
+          Related notes
+        </h2>
+        <div class="mt-6 grid gap-6 md:grid-cols-2">
+          {notes.map(note => <NoteCard note={note} />)}
+        </div>
+      </section>
+    )}
+  </main>
+  <Footer />
+</Layout>
