@@ -6,6 +6,7 @@ link: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1234567"
 ssrn: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1234567"
 category: "Research & Papers"
 noteTag: "market-structure"
+featured: true
 ---
 
 Whitepaper content summary.

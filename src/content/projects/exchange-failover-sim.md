@@ -5,6 +5,7 @@ tech: "Go · NATS · Grafana"
 link: "https://github.com/kgkswapan/exchange-failover-sim"
 category: "Trading Infrastructure"
 noteTag: "operations"
+featured: true
 ---
 
 Describe the failover simulator here.

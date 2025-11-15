@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Main from "@/layouts/Main.astro";
+import LinkButton from "@/components/LinkButton.astro";
 ---
 
 <Layout>
@@ -63,6 +64,22 @@ import Main from "@/layouts/Main.astro";
     <p class="mt-8 text-sm italic">
       All opinions expressed here are my own and do not represent those of my employer.
     </p>
+
+    <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+      <LinkButton
+        href="https://www.linkedin.com/in/kgkswapan/"
+        target="_blank"
+        class="rounded-full border border-transparent bg-accent px-5 py-2 text-center font-semibold text-white transition hover:-translate-y-0.5 hover:bg-accent/90 dark:text-slate-900"
+      >
+        View my profile on LinkedIn
+      </LinkButton>
+      <LinkButton
+        href="/contact"
+        class="rounded-full border border-accent/60 px-5 py-2 text-center font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent sm:ms-3"
+      >
+        Get in touch
+      </LinkButton>
+    </div>
   </Main>
   <Footer />
 </Layout>

@@ -5,6 +5,7 @@ tech: "Python · Playwright · Slack API"
 link: "https://github.com/kgkswapan"
 category: "Automation & Scripting"
 noteTag: "operations"
+featured: true
 ---
 
 Automation details.

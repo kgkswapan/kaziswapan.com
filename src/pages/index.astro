@@ -3,228 +3,119 @@ import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Socials from "@/components/Socials.astro";
 import LinkButton from "@/components/LinkButton.astro";
-import Card from "@/components/Card.astro";
-import Hr from "@/components/Hr.astro";
-import getSortedPosts from "@/utils/getSortedPosts";
-import IconRss from "@/assets/icons/IconRss.svg";
-import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
-import { SITE } from "@/config";
-import { SOCIALS } from "@/constants";
-import { withBase } from "@/utils/withBase";
+import ProjectCard from "@/components/ProjectCard.astro";
+import NoteCard from "@/components/NoteCard.astro";
+import getSortedNotes from "@/utils/getSortedNotes";
 
-const posts = await getCollection("blog");
+const projects = await getCollection("projects");
+const notes = await getCollection("notes");
 
-const sortedPosts = getSortedPosts(posts);
-const recentPosts = sortedPosts.slice(0, SITE.postPerIndex);
-
-const featuredProjects = [
-  {
-    title: "OpenTradeInfra",
-    description:
-      "Modular research-to-execution toolkit that keeps discretionary and systematic workflows in sync.",
-    badge: "Trading Infrastructure",
-    stack: "Python · FastAPI · Postgres · GitHub Actions",
-    href: "/projects#trading-infrastructure",
-  },
-  {
-    title: "Financial Models Library",
-    description:
-      "Reusable valuation, asset allocation, and personal finance models with transparent assumptions.",
-    badge: "Financial Models",
-    stack: "Excel · Google Sheets · Python · Polars",
-    href: "/projects#financial-models",
-  },
-  {
-    title: "Ops & Automation Tools",
-    description:
-      "CLI scripts and notebook helpers that reconcile trades, publish snapshots, and document playbooks.",
-    badge: "Automation & Scripting",
-    stack: "Node.js · Python · Linux · Notion API",
-    href: "/projects#automation-and-scripting",
-  },
-];
+const featuredProjects = projects
+  .filter(project => project.data.featured)
+  .sort((a, b) => a.data.title.localeCompare(b.data.title))
+  .slice(0, 4);
+const recentNotes = getSortedNotes(notes).slice(0, 4);
 ---
 
 <Layout>
   <Header />
-  <main id="main-content" data-layout="index">
-    <section id="hero" class="pt-8 pb-6">
-      <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-          Technologist ✕ Investor
-        </h1>
-        <a
-          target="_blank"
-          href={withBase("rss.xml")}
-          class="inline-block"
-          aria-label="rss feed"
-          title="RSS Feed"
-        >
-          <IconRss
-            width={20}
-            height={20}
-            class="scale-125 stroke-accent stroke-3 rtl:-rotate-90"
-          />
-          <span class="sr-only">RSS Feed</span>
-        </a>
+  <main id="main-content" class="mx-auto w-full max-w-app px-4 pb-12">
+    <section class="section-unstyled pt-10 pb-8">
+      <div class="flex flex-col items-center gap-6 text-center sm:flex-row sm:items-center sm:text-left">
+        <img
+          src="/assets/social-pro-pic.jpg"
+          alt="Kazi Gulam Kadar"
+          class="size-28 rounded-full object-cover shadow-lg sm:size-32"
+          loading="lazy"
+        />
+        <div>
+          <p class="text-sm uppercase tracking-[0.3em] text-accent">
+            Kazi Gulam Kadar
+          </p>
+          <h1 class="mt-2 text-3xl font-semibold sm:text-4xl">
+            Finance, Technology, and Research.
+          </h1>
+          <p class="mt-3 text-base text-foreground/80">
+            I build transparent trading infrastructure, automation, and research systems that keep
+            desks aligned and decisions documented.
+          </p>
+          <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+            <LinkButton
+              href="/projects"
+              class="rounded-full border border-transparent bg-accent px-6 py-2 text-center font-semibold text-white transition hover:-translate-y-0.5 hover:bg-accent/90 dark:text-slate-900"
+            >
+              View Projects
+            </LinkButton>
+            <LinkButton
+              href="/about"
+              class="rounded-full border border-accent/60 px-6 py-2 text-center font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent sm:ms-3"
+            >
+              About Me
+            </LinkButton>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <p>
-        I’m <strong>Kazi Gulam Kadar</strong>, building a high-credibility space for trading infrastructure,
-        financial modeling, and reflective notes on personal finance and decision-making. Everything
-        is documented, reproducible, and shipped in public.
-      </p>
-      <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+    <section class="section-unstyled mt-12 px-0">
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+        <h2 class="text-2xl font-semibold text-foreground">Featured Projects</h2>
         <LinkButton
           href="/projects"
-          class="rounded-full border border-transparent bg-accent px-5 py-2 text-center font-semibold text-white transition hover:-translate-y-0.5 hover:bg-accent/90 dark:text-slate-900"
+          class="rounded-full border border-accent/60 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
         >
-          Explore Projects
+          View all projects
         </LinkButton>
+      </div>
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        {featuredProjects.length > 0 ? (
+          featuredProjects.map(project => <ProjectCard project={project} />)
+        ) : (
+          <p class="text-sm text-muted">No featured projects yet.</p>
+        )}
+      </div>
+    </section>
+
+    <section class="section-unstyled mt-12 px-0">
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+        <h2 class="text-2xl font-semibold text-foreground">Recent Notes</h2>
         <LinkButton
-          class="rounded-full border border-accent/60 px-5 py-2 text-center font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent sm:ms-2"
-          href="/about"
+          href="/notes"
+          class="rounded-full border border-accent/60 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
         >
-          Read the Story
+          View all notes
         </LinkButton>
       </div>
-      {
-        // only display if at least one social link is enabled
-        SOCIALS.length > 0 && (
-          <div class="mt-4 flex flex-col sm:flex-row sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
-            <Socials />
-          </div>
-        )
-      }
-    </section>
-
-    <Hr />
-
-    <section id="featured-projects" class="pt-12 pb-6">
-      <h2 class="text-2xl font-semibold tracking-wide">Featured Projects</h2>
-      <p class="mb-6 mt-2 text-base text-muted">
-        Systems that combine disciplined investing, transparent automation, and shareable playbooks.
-      </p>
-      <div class="grid gap-6 md:grid-cols-3">
-        {featuredProjects.map(project => (
-          <article class="rounded-xl border border-stone-200/50 bg-surface px-5 py-6 dark:border-stone-700/80 dark:bg-slate-900/40">
-            <p class="text-xs font-semibold uppercase tracking-widest text-accent">
-              {project.badge}
-            </p>
-            <h3 class="mt-2 text-xl font-semibold">{project.title}</h3>
-            <p class="mt-3 text-sm text-muted">{project.description}</p>
-            <p class="mt-4 text-xs uppercase tracking-wide text-muted">
-              {project.stack}
-            </p>
-            <LinkButton class="mt-5" href={project.href}>
-              View focus area
-              <IconArrowRight class="inline-block rtl:-rotate-180" />
-            </LinkButton>
-          </article>
-        ))}
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        {recentNotes.length > 0 ? (
+          recentNotes.map(note => <NoteCard note={note} />)
+        ) : (
+          <p class="text-sm text-muted">No notes published yet.</p>
+        )}
       </div>
     </section>
 
-    <Hr />
-
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-            <div>
-              <h2 class="text-2xl font-semibold tracking-wide">Recent Notes</h2>
-              <p class="text-base text-muted">
-                Fast takes on markets, tooling experiments, and personal operating principles.
-              </p>
-            </div>
-            <LinkButton
-              href="/notes"
-              class="rounded-full border border-accent/60 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent sm:self-end"
-            >
-              Browse all notes
-            </LinkButton>
-          </div>
-          <ul>
-            {recentPosts.map(data => (
-              <Card variant="h3" {...data} />
-            ))}
-          </ul>
-        </section>
-      )
-    }
-
-    <Hr />
-
-    <section id="about-preview" class="pt-12 pb-6">
-      <div class="grid gap-6 md:grid-cols-2 md:items-center">
-        <div>
-          <h2 class="text-2xl font-semibold tracking-wide">About Kazi</h2>
-          <p class="mt-3 text-base">
-            I build transparent systems that help investors and builders make better calls. From trade
-            operations to learning loops, everything is documented, tested, and shared.
-          </p>
-          <ul class="mt-4 list-disc space-y-1 ps-5 text-base text-muted">
-            <li>Finance × technology background with hands-on automation work.</li>
-            <li>Projects span trading infrastructure, personal finance models, and desk tooling.</li>
-            <li>Operating principles: clarity, repeatability, long-term thinking.</li>
-          </ul>
-          <LinkButton
-            class="mt-5 rounded-full border border-accent/60 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
-            href="/about"
-          >
-            More about the journey
-            <IconArrowRight class="inline-block rtl:-rotate-180" />
-          </LinkButton>
-        </div>
-        <div class="rounded-2xl border border-stone-200/60 bg-surface/70 p-6 dark:border-stone-700/80 dark:bg-slate-900/40">
-          <p class="text-xs uppercase tracking-[0.4em] text-accent">Focus Areas</p>
-          <ul class="mt-4 space-y-2 text-base">
-            <li>• Trading infrastructure & tooling</li>
-            <li>• Financial modeling & scenario design</li>
-            <li>• Automation & repeatable workflows</li>
-            <li>• Reflective notes on systems thinking</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <Hr />
-
-    <section id="contact-cta" class="py-12 text-center">
-      <p class="text-sm uppercase tracking-[0.3em] text-muted">Ready to connect?</p>
-      <h2 class="mt-4 text-3xl font-semibold">Let’s build rational systems together.</h2>
-      <p class="mx-auto mt-4 max-w-2xl text-base">
-        Whether it’s trading ops, automation proof-of-concepts, or long-form thinking, I’m always
-        interested in thoughtful collaborations. Drop a note — I usually respond within 24 hours.
-      </p>
+    <section class="section-unstyled mt-12 px-0 text-center">
+      <h2 class="text-3xl font-semibold text-foreground">
+        Let’s build calm, rational systems together.
+      </h2>
       <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
         <LinkButton
-          href="mailto:kazi.swapan@gmail.com"
+          href="/contact"
           class="rounded-full border border-transparent bg-accent px-6 py-2 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-accent/90 dark:text-slate-900"
         >
-          Email me
+          Get in touch
         </LinkButton>
         <LinkButton
-          class="rounded-full border border-accent/60 px-5 py-2 font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent sm:ms-2"
-          href="/contact"
+          href="https://www.linkedin.com/in/kgkswapan/"
+          target="_blank"
+          class="rounded-full border border-accent/60 px-6 py-2 font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
         >
-          View contact page
+          Connect on LinkedIn
         </LinkButton>
       </div>
     </section>
   </main>
   <Footer />
 </Layout>
-
-<script>
-  document.addEventListener("astro:page-load", () => {
-    const indexLayout = (document.querySelector("#main-content") as HTMLElement)
-      ?.dataset?.layout;
-    if (indexLayout) {
-      sessionStorage.setItem("backUrl", "/");
-    }
-  });
-</script>

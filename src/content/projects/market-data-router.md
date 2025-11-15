@@ -5,6 +5,7 @@ tech: "Rust · Kafka · Redis"
 link: "https://github.com/kgkswapan"
 category: "Trading Infrastructure"
 noteTag: "market-data"
+featured: true
 ---
 
 Project details go here.
