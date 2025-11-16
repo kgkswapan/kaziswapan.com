@@ -33,4 +33,15 @@ const projects = defineCollection({
     }),
 });
 
-export const collections = { notes, projects };
+const quotes = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/quotes" }),
+  schema: () =>
+    z.object({
+      quote: z.string(),
+      author: z.string(),
+      source: z.string().optional(),
+      tags: z.array(z.string()).optional(),
+    }),
+});
+
+export const collections = { notes, projects, quotes };

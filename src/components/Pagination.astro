@@ -5,7 +5,7 @@ import IconArrowLeft from "@/assets/icons/IconArrowLeft.svg";
 import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import LinkButton from "./LinkButton.astro";
 
-type PageEntry = CollectionEntry<"notes">;
+type PageEntry = CollectionEntry<"notes"> | CollectionEntry<"quotes">;
 
 export interface Props {
   page: Page<PageEntry>;
