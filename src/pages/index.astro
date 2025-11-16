@@ -21,6 +21,11 @@ const randomQuote =
   quotes.length > 0
     ? quotes[Math.floor(Math.random() * quotes.length)]
     : null;
+const quotePayload = quotes.map(({ data }) => ({
+  quote: data.quote,
+  author: data.author,
+  source: data.source ?? "",
+}));
 ---
 
 <Layout>
@@ -102,15 +107,50 @@ const randomQuote =
 
     {randomQuote && (
       <section class="section-unstyled mt-12 px-0 text-center">
-        <div class="rounded-2xl border border-border/70 bg-background/70 p-8 shadow-sm dark:bg-slate-900/40">
+        <div
+          class="rounded-2xl border border-border/70 bg-background/70 p-8 shadow-sm dark:bg-slate-900/40"
+          data-quote-of-day
+        >
           <p class="text-7xl font-serif text-accent" aria-hidden="true">“</p>
-          <p class="text-2xl italic text-foreground/90">{randomQuote.data.quote}</p>
-          <p class="mt-4 text-base font-semibold text-foreground">{randomQuote.data.author}</p>
-          {randomQuote.data.source && (
-            <p class="text-sm text-muted">{randomQuote.data.source}</p>
-          )}
+          <p class="text-2xl italic text-foreground/90" data-quote-text>
+            {randomQuote.data.quote}
+          </p>
+          <p class="mt-4 text-base font-semibold text-foreground" data-quote-author>
+            {randomQuote.data.author}
+          </p>
+          <p
+            class:list={["text-sm text-muted", { hidden: !randomQuote.data.source }]}
+            data-quote-source
+          >
+            {randomQuote.data.source}
+          </p>
           <p class="mt-4 text-7xl font-serif text-accent" aria-hidden="true">”</p>
         </div>
+        <script is:inline>
+          const quoteSection = document.querySelector("[data-quote-of-day]");
+          if (quoteSection) {
+            const quoteData = JSON.parse('{JSON.stringify(quotePayload)}');
+            if (Array.isArray(quoteData) && quoteData.length > 0) {
+              const picked = quoteData[Math.floor(Math.random() * quoteData.length)];
+              if (picked) {
+                const textEl = quoteSection.querySelector("[data-quote-text]");
+                const authorEl = quoteSection.querySelector("[data-quote-author]");
+                const sourceEl = quoteSection.querySelector("[data-quote-source]");
+                if (textEl) textEl.textContent = picked.quote;
+                if (authorEl) authorEl.textContent = picked.author;
+                if (sourceEl) {
+                  if (picked.source) {
+                    sourceEl.textContent = picked.source;
+                    sourceEl.classList.remove("hidden");
+                  } else {
+                    sourceEl.textContent = "";
+                    sourceEl.classList.add("hidden");
+                  }
+                }
+              }
+            }
+          }
+        </script>
       </section>
     )}
 
