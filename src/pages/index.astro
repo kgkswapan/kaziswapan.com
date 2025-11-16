@@ -126,28 +126,36 @@ const quotePayload = quotes.map(({ data }) => ({
           </p>
           <p class="mt-4 text-7xl font-serif text-accent" aria-hidden="true">”</p>
         </div>
+        <script type="application/json" id="quote-data" is:inline>
+          {JSON.stringify(quotePayload)}
+        </script>
         <script is:inline>
           const quoteSection = document.querySelector("[data-quote-of-day]");
-          if (quoteSection) {
-            const quoteData = JSON.parse('{JSON.stringify(quotePayload)}');
-            if (Array.isArray(quoteData) && quoteData.length > 0) {
-              const picked = quoteData[Math.floor(Math.random() * quoteData.length)];
-              if (picked) {
-                const textEl = quoteSection.querySelector("[data-quote-text]");
-                const authorEl = quoteSection.querySelector("[data-quote-author]");
-                const sourceEl = quoteSection.querySelector("[data-quote-source]");
-                if (textEl) textEl.textContent = picked.quote;
-                if (authorEl) authorEl.textContent = picked.author;
-                if (sourceEl) {
-                  if (picked.source) {
-                    sourceEl.textContent = picked.source;
-                    sourceEl.classList.remove("hidden");
-                  } else {
-                    sourceEl.textContent = "";
-                    sourceEl.classList.add("hidden");
+          const quoteDataEl = document.getElementById("quote-data");
+          if (quoteSection && quoteDataEl?.textContent) {
+            try {
+              const quoteData = JSON.parse(quoteDataEl.textContent);
+              if (Array.isArray(quoteData) && quoteData.length > 0) {
+                const picked = quoteData[Math.floor(Math.random() * quoteData.length)];
+                if (picked) {
+                  const textEl = quoteSection.querySelector("[data-quote-text]");
+                  const authorEl = quoteSection.querySelector("[data-quote-author]");
+                  const sourceEl = quoteSection.querySelector("[data-quote-source]");
+                  if (textEl) textEl.textContent = picked.quote;
+                  if (authorEl) authorEl.textContent = picked.author;
+                  if (sourceEl) {
+                    if (picked.source) {
+                      sourceEl.textContent = picked.source;
+                      sourceEl.classList.remove("hidden");
+                    } else {
+                      sourceEl.textContent = "";
+                      sourceEl.classList.add("hidden");
+                    }
                   }
                 }
               }
+            } catch (error) {
+              console.error("Failed to load quote of the day", error);
             }
           }
         </script>
