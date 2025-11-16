@@ -1,5 +1,5 @@
 ---
-quote: "The only thing that is permanent is - nothing is permanent!"
+quote: "The only thing that is permanent is that nothing is permanent."
 author: ""
 source: ""
 tags:
