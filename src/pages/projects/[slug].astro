@@ -24,6 +24,36 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await render(project);
 const { title, summary, tech, link, ssrn, noteTag } = project.data;
+const hasTech = typeof tech === "string" && tech.trim().length > 0;
+const rawData = project.data as Record<string, unknown>;
+const dynamicLinks = Object.entries(rawData)
+  .filter(
+    ([key, value]) =>
+      /^link\\d+$/.test(key) &&
+      typeof value === "string" &&
+      value.trim().length > 0
+  )
+  .map(([key, href]) => {
+    const suffix = key.replace("link", "");
+    const textKey = `buttonText${suffix}`;
+    const buttonTextRaw = rawData[textKey];
+    const text =
+      typeof buttonTextRaw === "string" && buttonTextRaw.trim().length > 0
+        ? buttonTextRaw
+        : "View Project";
+    return { href: href as string, text };
+  });
+const baseLink =
+  typeof link === "string" && link.trim().length > 0
+    ? [{ href: link, text: "View Project" }]
+    : [];
+const linkButtons = [
+  ...baseLink,
+  ...dynamicLinks,
+  ...(typeof ssrn === "string" && ssrn.trim().length > 0
+    ? [{ href: ssrn, text: "View on SSRN" }]
+    : []),
+];
 const notes = noteTag
   ? (await getNotesCollection("notes")).filter(note =>
       note.data.tags
@@ -39,29 +69,24 @@ const notes = noteTag
   <main class="mx-auto w-full max-w-app px-4 pb-12">
     <h1 class="text-2xl font-semibold text-foreground sm:text-3xl">{title}</h1>
     <p class="mt-2 text-base text-foreground/80">{summary}</p>
-    <p class="mt-4 text-sm font-medium text-foreground">
-      <span class="font-semibold text-accent">Tech:</span> {tech}
-    </p>
-    {(link || ssrn) && (
+    {
+      hasTech && (
+        <p class="mt-4 text-sm font-medium text-foreground">
+          <span class="font-semibold text-accent">Tech:</span> {tech}
+        </p>
+      )
+    }
+    {linkButtons.length > 0 && (
       <div class="mt-4 flex flex-wrap gap-3">
-        {link && (
+        {linkButtons.map(button => (
           <LinkButton
             class="rounded-full border border-accent/70 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
-            href={link}
+            href={button.href}
             target="_blank"
           >
-            View on GitHub
+            {button.text}
           </LinkButton>
-        )}
-        {ssrn && (
-          <LinkButton
-            class="rounded-full border border-accent/70 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover-border-accent"
-            href={ssrn}
-            target="_blank"
-          >
-            View on SSRN
-          </LinkButton>
-        )}
+        ))}
       </div>
     )}
     <article class="app-prose mx-auto mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)">
