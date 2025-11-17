@@ -21,16 +21,18 @@ const notes = defineCollection({
 const projects = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
   schema: () =>
-    z.object({
-      title: z.string(),
-      summary: z.string(),
-      tech: z.string().optional(),
-      link: z.string().url().optional(),
-      ssrn: z.string().url().optional(),
-      category: z.string(),
-      featured: z.boolean().optional(),
-      noteTag: z.string().optional(),
-    }),
+    z
+      .object({
+        title: z.string(),
+        summary: z.string(),
+        tech: z.string().optional(),
+        link: z.string().url().optional(),
+        ssrn: z.string().url().optional(),
+        category: z.string(),
+        featured: z.boolean().optional(),
+        noteTag: z.string().optional(),
+      })
+      .passthrough(),
 });
 
 const quotes = defineCollection({

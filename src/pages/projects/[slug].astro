@@ -24,12 +24,14 @@ export async function getStaticPaths() {
 const { project } = Astro.props;
 const { Content } = await render(project);
 const { title, summary, tech, link, ssrn, noteTag } = project.data;
+const embedMap = (project.data as { embedMap?: string }).embedMap;
 const hasTech = typeof tech === "string" && tech.trim().length > 0;
-const rawData = project.data as Record<string, unknown>;
+const rawData = project.data as Record<string, unknown> &
+  Partial<Record<`link${number}` | `buttonText${number}`, string>>;
 const dynamicLinks = Object.entries(rawData)
   .filter(
     ([key, value]) =>
-      /^link\\d+$/.test(key) &&
+      /^link\d+$/.test(key) &&
       typeof value === "string" &&
       value.trim().length > 0
   )
@@ -92,6 +94,22 @@ const notes = noteTag
     <article class="app-prose mx-auto mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)">
       <Content />
     </article>
+    {
+      embedMap && (
+        <section class="mt-10">
+          <div class="overflow-hidden rounded-2xl border border-muted/60 shadow-sm">
+            <iframe
+              title={`Map for ${title}`}
+              src={embedMap}
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen
+              class="h-[420px] w-full border-0 sm:h-[520px]"
+            />
+          </div>
+        </section>
+      )
+    }
 
     {notes.length > 0 && (
       <section class="section-unstyled mt-12 px-0">

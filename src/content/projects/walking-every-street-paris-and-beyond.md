@@ -4,17 +4,20 @@ summary: "A long-term personal project where I map every street I walk in Paris 
 category: "Personal Projects"
 noteTag: "walking-every-street"
 featured: true
-link1: "https://www.google.com/maps/d/u/0/viewer?mid=1SHTuPOyYwY_UZ-p5LY9NlaXtPRgqcD_-&usp=sharing"
+link1: "https://www.google.com/maps/d/embed?mid=1pL9QPjDnZcgdJOYPugNPaB0Juhol4Ng&ehbc=2E312F"
 buttonText1: "View Live Map"
+embedMap: "https://www.google.com/maps/d/embed?mid=1pL9QPjDnZcgdJOYPugNPaB0Juhol4Ng&ehbc=2E312F"
 ---
 
-This journey started as a simple curiosity: How well do I really know the city I live in? The question quickly turned into a personal challenge—walk every street in Paris (and eventually beyond), one block at a time.
+Walking has always been one of my favourite ways to understand a place. You can read about a city, look at pictures, watch videos — but nothing compares to tracing its lines with your own footsteps. The small corners, the quiet streets, the unexpected turns… these things don’t appear on any map unless you discover them yourself.
 
-I document the routes on a dynamic Google Map. Every time I add a new path, the map shifts into a slightly richer version of the city. The blank spaces quietly remind me there is still more to see, more to learn, and more to experience.
+And when you’re in a city like Paris, every walk feels like slipping through layers of history. Some days it feels like the Renaissance, full of raw creativity and rebirth. Other days, I sense the dreamy elegance of the Belle Époque, or the intensity of the French Republic’s many upheavals. Sometimes I imagine the disciplined march of the Napoleonic era; sometimes the quiet sophistication of the French kings and their courts. The city changes era depending on the street you choose.
 
-This project isn’t about speed or hitting a milestone. It’s about attention. Walking a street Iʼve never taken before makes me notice details I would otherwise ignore—the architecture, the small businesses, the energy of different neighbourhoods.
+So I started this personal project: to walk every street, every alley, every hidden passage I can find in Paris and the surrounding cities. No rush, no deadline — just a long exploration, one step at a time. And of course, a quiet coffee on a terrace from one of the countless cafés that make Paris what it is.
 
-Sometimes I’ll carry a small camera, other times just a notebook. Occasionally I pair the walk with an audio log that captures the thoughts I have while turning a corner, waiting at a light, or sitting in a park.
+Whenever I walk somewhere new, I track it on a Google Map. Over time, that map has become a colourful patchwork of routes and memories — a visual diary of where my curiosity has taken me.
 
-I’ve started extending the project outside Paris whenever I travel. The goal stays the same: let the city reveal itself at pedestrian speed.
+This project doesn’t aim for fitness, productivity, or achievement. It’s simply a way to slow down, notice things, and appreciate the city I call home. As I wander beyond Paris — into places like the 94 and other nearby areas — the map grows with me.
 
+It’s a small project, but one I enjoy deeply.
+And like all slow and simple things in life, it feels meaningful in its own quiet way.

@@ -126,7 +126,12 @@ const quotePayload = quotes.map(({ data }) => ({
           </p>
           <p class="mt-4 text-7xl font-serif text-accent" aria-hidden="true">”</p>
         </div>
-        <script type="application/json" id="quote-data" set:html={JSON.stringify(quotePayload)} />
+        <script
+          type="application/json"
+          id="quote-data"
+          is:inline
+          set:html={JSON.stringify(quotePayload)}
+        />
         <script is:inline>
           const quoteSection = document.querySelector("[data-quote-of-day]");
           const quoteDataEl = document.getElementById("quote-data");
