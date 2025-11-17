@@ -1,0 +1,81 @@
+---
+interface Props {
+  milestones: Record<string, number>;
+}
+
+const { milestones } = Astro.props;
+const entries = Object.entries(milestones ?? {});
+const normalized = entries
+  .map(([key, value]) => ({
+    key,
+    percent: Math.min(Math.max(Number(value) || 0, 0), 100),
+  }))
+  .sort((a, b) =>
+    a.key.localeCompare(b.key, undefined, { numeric: true, sensitivity: "base" }),
+  );
+
+const overallPercent =
+  normalized.length > 0
+    ? Math.round(
+        normalized.reduce((sum, item) => sum + item.percent, 0) / normalized.length,
+      )
+    : 0;
+---
+
+{normalized.length > 0 && (
+  <section class="mt-8 rounded-2xl border border-muted/60 bg-surface/40 p-6 shadow-sm">
+    <div class="flex flex-wrap items-end justify-between gap-2">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-foreground">
+          Project Progress
+        </p>
+        <p class="text-2xl font-semibold text-foreground">{overallPercent}% complete</p>
+      </div>
+      <div class="text-sm text-foreground/80">
+        {normalized.length} milestones · equal weighting
+      </div>
+    </div>
+    <div class="mt-4 w-full rounded-full bg-muted/40">
+      <div
+        class="h-3 rounded-full bg-accent transition-[width]"
+        style={`width:${overallPercent}%`}
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow={overallPercent}
+      />
+    </div>
+    <div class="mt-6 overflow-x-auto pb-2">
+      <div class="flex min-w-full items-center gap-3 whitespace-nowrap">
+        {normalized.map((item, index) => {
+          const isComplete = item.percent >= 100;
+          return (
+            <>
+              <div
+                class:list={[
+                  "flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border text-sm font-semibold",
+                  isComplete
+                    ? "border-green-500 bg-green-500/10 text-green-600 dark:text-green-300"
+                    : "border-muted/60 bg-background text-foreground/80",
+                ]}
+              >
+                {item.key}
+              </div>
+              {index < normalized.length - 1 && (
+                <div class="relative h-1 flex-1 rounded-full bg-muted/40">
+                  <div
+                    class:list={[
+                      "absolute inset-y-0 left-0 rounded-full",
+                      isComplete ? "bg-green-500" : "bg-accent",
+                    ]}
+                    style={`width:${item.percent}%`}
+                  />
+                </div>
+              )}
+            </>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+)}

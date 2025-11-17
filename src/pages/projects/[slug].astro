@@ -8,6 +8,7 @@ import LinkButton from "@/components/LinkButton.astro";
 import NoteCard from "@/components/NoteCard.astro";
 import getProjectSlug from "@/utils/getProjectSlug";
 import { getCollection as getNotesCollection } from "astro:content";
+import MilestoneProgress from "@/components/MilestoneProgress.astro";
 
 interface Props {
   project: CollectionEntry<"projects">;
@@ -25,7 +26,15 @@ const { project } = Astro.props;
 const { Content } = await render(project);
 const { title, summary, tech, link, ssrn, noteTag } = project.data;
 const embedMap = (project.data as { embedMap?: string }).embedMap;
+const milestoneProgress = project.data
+  .milestoneProgress as Record<string, number> | undefined;
 const hasTech = typeof tech === "string" && tech.trim().length > 0;
+const techList = hasTech
+  ? tech
+      .split(",")
+      .map(item => item.trim())
+      .filter(Boolean)
+  : [];
 const rawData = project.data as Record<string, unknown> &
   Partial<Record<`link${number}` | `buttonText${number}`, string>>;
 const dynamicLinks = Object.entries(rawData)
@@ -70,14 +79,24 @@ const notes = noteTag
   <BackButton />
   <main class="mx-auto w-full max-w-app px-4 pb-12">
     <h1 class="text-2xl font-semibold text-foreground sm:text-3xl">{title}</h1>
-    <p class="mt-2 text-base text-foreground/80">{summary}</p>
-    {
-      hasTech && (
-        <p class="mt-4 text-sm font-medium text-foreground">
-          <span class="font-semibold text-accent">Tech:</span> {tech}
-        </p>
-      )
-    }
+    <p class="mt-2 text-base italic text-foreground/80">{summary}</p>
+    {milestoneProgress && (
+      <MilestoneProgress milestones={milestoneProgress} />
+    )}
+    {techList.length > 0 && (
+      <div class="mt-4 flex flex-wrap items-center gap-3 text-sm font-medium text-foreground">
+        <span class="font-semibold uppercase tracking-wide text-foreground/70">
+          Tech
+        </span>
+        <div class="flex flex-wrap gap-2">
+          {techList.map(item => (
+            <span class="rounded-full border border-accent/60 px-3 py-1 text-xs font-semibold text-accent">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    )}
     {linkButtons.length > 0 && (
       <div class="mt-4 flex flex-wrap gap-3">
         {linkButtons.map(button => (

@@ -8,7 +8,7 @@ link1: "https://www.google.com/maps/d/embed?mid=1pL9QPjDnZcgdJOYPugNPaB0Juhol4Ng
 buttonText1: "View Live Map"
 embedMap: "https://www.google.com/maps/d/embed?mid=1pL9QPjDnZcgdJOYPugNPaB0Juhol4Ng&ehbc=2E312F"
 ---
-
+---
 Walking has always been one of my favourite ways to understand a place. You can read about a city, look at pictures, watch videos — but nothing compares to tracing its lines with your own footsteps. The small corners, the quiet streets, the unexpected turns… these things don’t appear on any map unless you discover them yourself.
 
 And when you’re in a city like Paris, every walk feels like slipping through layers of history. Some days it feels like the Renaissance, full of raw creativity and rebirth. Other days, I sense the dreamy elegance of the Belle Époque, or the intensity of the French Republic’s many upheavals. Sometimes I imagine the disciplined march of the Napoleonic era; sometimes the quiet sophistication of the French kings and their courts. The city changes era depending on the street you choose.
