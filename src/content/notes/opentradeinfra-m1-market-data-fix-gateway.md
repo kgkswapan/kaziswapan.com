@@ -39,7 +39,7 @@ It:
 - Logs **onCreate**, **onLogon**, and **onLogout** events  
 - Receives application messages and prints the FIX `MsgType` (e.g. `D` for `NewOrderSingle`)
 
-![OpenTradeInfra M1 – FIX Acceptor running](</public/assets/opentradeinfra/m1/m1-acceptor.png>)
+![OpenTradeInfra M1 – FIX Acceptor running](/assets/opentradeinfra/m1/m1-acceptor.png)
 
 ### 2. Initiator Sending Orders and Receiving Execution Reports
 
@@ -56,7 +56,7 @@ It:
 
 This gives us a full round-trip from client → gateway → response, all visible in the logs.
 
-![OpenTradeInfra M1 – FIX Initiator running](</public/assets/opentradeinfra/m1/m1-initiator.png>)
+![OpenTradeInfra M1 – FIX Initiator running](/assets/opentradeinfra/m1/m1-initiator.png)
 
 ### 3. Raw FIX Messages Logged
 
@@ -70,7 +70,7 @@ QuickFIX logs the raw FIX traffic to file, including headers and all relevant ta
 - 38= (OrderQty)
 - 44= (Price)
 
-![OpenTradeInfra M1 – raw FIX message log](</public/assets/opentradeinfra/m1/m1-log.png>)
+![OpenTradeInfra M1 – raw FIX message log](/assets/opentradeinfra/m1/m1-log.png)
 
 This is important because later milestones (trade capture, risk, monitoring) will consume and interpret exactly these messages.
 
@@ -78,7 +78,7 @@ This is important because later milestones (trade capture, risk, monitoring) wil
 
 Project structure in GitHub.
 
-![OpenTradeInfra M1 – GitHub Repo Structure](</public/assets/opentradeinfra/m1/m1-github-repo.png>)
+![OpenTradeInfra M1 – GitHub Repo Structure](/assets/opentradeinfra/m1/m1-github-repo.png)
 
 ## How I Built This
 
