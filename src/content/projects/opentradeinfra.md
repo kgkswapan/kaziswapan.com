@@ -9,7 +9,7 @@ link1: "https://github.com/kgkswapan/OpenTradeInfra"
 buttonText1: "GitHub Repo"
 milestoneProgress:
   M1: 100
-  M2: 0
+  M2: 60
   M3: 0
   M4: 0
   M5: 0
