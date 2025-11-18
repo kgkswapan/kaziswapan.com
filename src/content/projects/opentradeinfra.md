@@ -3,13 +3,13 @@ title: "OpenTradeInfra"
 summary: "An open-source trading infrastructure lab built to understand the full trade lifecycle—from market data to execution, risk, and monitoring."
 tech: "Python, QuickFIX, PostgreSQL, Docker, Prometheus, Grafana"
 category: "Trading Infrastructure"
-noteTag: ""
+noteTag: "opentradeinfra"
 featured: true
 link1: ""
 buttonText1: ""
 milestoneProgress:
   M1: 100
-  M2: 10
+  M2: 0
   M3: 0
   M4: 0
   M5: 0
