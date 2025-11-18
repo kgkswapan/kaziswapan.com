@@ -5,8 +5,8 @@ tech: "Python, QuickFIX, PostgreSQL, Docker, Prometheus, Grafana"
 category: "Trading Infrastructure"
 noteTag: "opentradeinfra"
 featured: true
-link1: ""
-buttonText1: ""
+link1: "https://github.com/kgkswapan/OpenTradeInfra"
+buttonText1: "GitHub Repo"
 milestoneProgress:
   M1: 100
   M2: 0
@@ -41,7 +41,7 @@ I rely heavily on AI throughout this project — for planning, structuring compo
 
 ## **Project Milestones**
 
-### **M1 — Market Data + FIX Gateway (In Progress)**  
+### **M1 — Market Data + FIX Gateway (Completed)**  
 - QuickFIX Acceptor + Initiator  
 - Synthetic order flow generator  
 - Basic validation and message handling  

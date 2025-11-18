@@ -6,6 +6,7 @@ tags:
   - thoughts
   - accounting
   - basics
+  - personal-finance
 draft: false
 timezone: "Europe/Paris"
 ---
