@@ -1,7 +1,7 @@
 ---
 title: "OpenTradeInfra M1: Market Data and FIX Gateway"
 summary: "First milestone recap for OpenTradeInfra — a working QuickFIX acceptor/initiator, synthetic order flow, and end-to-end message handling."
-pubDatetime: 2025-11-18T12:40:00Z
+pubDatetime: 2025-11-17T12:40:00Z
 tags:
   - opentradeinfra
   - trading-infrastructure
