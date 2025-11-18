@@ -1,5 +1,5 @@
 ---
-import { render, type CollectionEntry } from "astro:content";
+import { render, type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
@@ -10,6 +10,7 @@ import { SITE } from "@/config";
 import { slugifyStr } from "@/utils/slugify";
 import noteFilter from "@/utils/noteFilter";
 import getNoteSlug from "@/utils/getNoteSlug";
+import getProjectSlug from "@/utils/getProjectSlug";
 
 interface Props {
   note: CollectionEntry<"notes">;
@@ -38,6 +39,19 @@ const nextNote =
 
 const getHref = (noteEntry: CollectionEntry<"notes">) =>
   `/notes/${getNoteSlug(noteEntry)}/`;
+
+const projects = await getCollection("projects");
+const lowerTags = tags.map(tag => tag.toLowerCase());
+const relatedProject = projects.find(project => {
+  const projectTag = project.data.noteTag;
+  return (
+    typeof projectTag === "string" &&
+    lowerTags.includes(projectTag.toLowerCase())
+  );
+});
+const relatedProjectHref = relatedProject
+  ? `/projects/${getProjectSlug(relatedProject)}/`
+  : undefined;
 ---
 
 <Layout {...layoutProps}>
@@ -61,6 +75,28 @@ const getHref = (noteEntry: CollectionEntry<"notes">) =>
     >
       <Content />
     </article>
+    {
+      relatedProject && relatedProjectHref && (
+        <section class="mt-10 rounded-2xl border border-muted/60 bg-surface/40 p-6">
+          <p class="text-xs uppercase tracking-wide text-foreground/70">
+            Part of project
+          </p>
+          <h2 class="mt-1 text-lg font-semibold text-foreground">
+            {relatedProject.data.title}
+          </h2>
+          <p class="mt-2 text-sm text-foreground/80">
+            {relatedProject.data.summary}
+          </p>
+          <a
+            class="mt-4 inline-flex items-center gap-2 rounded-full border border-accent/70 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
+            href={relatedProjectHref}
+          >
+            View project
+            <span aria-hidden="true">→</span>
+          </a>
+        </section>
+      )
+    }
 
     <ul class="mt-6 flex flex-wrap gap-2 text-xs font-medium">
       {tags.map(tag => {
