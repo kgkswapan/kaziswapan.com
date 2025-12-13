@@ -1,6 +1,6 @@
 ---
 quote: "Fail to plan and you are planning to fail."
-author: ""
+author: "Proverb"
 source: ""
 tags:
   - philosophy

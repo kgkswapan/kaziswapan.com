@@ -1,6 +1,6 @@
 ---
-quote: "It’s not the biggest or strongest that survive, but the most adaptable."
-author: ""
+quote: "It is not the strongest species that survive, nor the most intelligent, but the ones most responsive to change."
+author: "Leon C. Megginson"
 source: ""
 tags:
   - philosophy
