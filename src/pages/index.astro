@@ -157,8 +157,8 @@ const quotePayload = quotes.map(({ data }) => ({
                   }
                 }
               }
-            } catch (error) {
-              console.error("Failed to load quote of the day", error);
+            } catch {
+              // Fail silently if the quote payload is invalid.
             }
           }
         </script>

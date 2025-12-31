@@ -87,7 +87,7 @@ const hasAccessKey = Boolean(accessKey);
       };
 
       try {
-        submitButton && (submitButton.disabled = true);
+        if (submitButton) submitButton.disabled = true;
         setStatus("Sending…");
 
         const response = await fetch("https://api.web3forms.com/submit", {
@@ -106,10 +106,10 @@ const hasAccessKey = Boolean(accessKey);
         } else {
           setStatus(data.message ?? "Unable to send your message.");
         }
-      } catch (error) {
+      } catch {
         setStatus("Unable to send right now. Please email me directly.");
       } finally {
-        submitButton && (submitButton.disabled = false);
+        if (submitButton) submitButton.disabled = false;
       }
     });
   }
