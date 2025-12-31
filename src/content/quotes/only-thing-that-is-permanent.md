@@ -6,5 +6,3 @@ tags:
   - philosophy
   - thinking
 ---
-
-

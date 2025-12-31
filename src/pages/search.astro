@@ -7,7 +7,9 @@ import Footer from "@/components/Footer.astro";
 import { SITE } from "@/config";
 import { withBase } from "@/utils/withBase";
 
-const backUrl = SITE.showBackButton ? withBase(Astro.url.pathname) : withBase("/");
+const backUrl = SITE.showBackButton
+  ? withBase(Astro.url.pathname)
+  : withBase("/");
 const bundlePath = withBase("pagefind/");
 const baseUrl = withBase("/");
 ---
@@ -21,7 +23,8 @@ const baseUrl = withBase("/");
       data-backurl={backUrl}
       data-base={baseUrl}
       data-bundle={bundlePath}
-    ></div>
+    >
+    </div>
   </Main>
   <Footer />
 </Layout>

@@ -1,6 +1,5 @@
 const BASE_URL_RAW = import.meta.env.BASE_URL ?? "/";
-const BASE_URL =
-  BASE_URL_RAW.endsWith("/") ? BASE_URL_RAW : `${BASE_URL_RAW}/`;
+const BASE_URL = BASE_URL_RAW.endsWith("/") ? BASE_URL_RAW : `${BASE_URL_RAW}/`;
 
 /**
  * Prefixes a path with Astro's configured base URL.

@@ -30,8 +30,7 @@ const layoutProps = {
 
 const sortedNotes = notes.filter(noteFilter);
 const currentIndex = sortedNotes.findIndex(item => item.id === note.id);
-const prevNote =
-  currentIndex > 0 ? sortedNotes[currentIndex - 1] : undefined;
+const prevNote = currentIndex > 0 ? sortedNotes[currentIndex - 1] : undefined;
 const nextNote =
   currentIndex !== -1 && currentIndex + 1 < sortedNotes.length
     ? sortedNotes[currentIndex + 1]
@@ -77,8 +76,8 @@ const relatedProjectHref = relatedProject
     </article>
     {
       relatedProject && relatedProjectHref && (
-        <section class="mt-10 rounded-2xl border border-muted/60 bg-surface/40 p-6">
-          <p class="text-xs uppercase tracking-wide text-foreground/70">
+        <section class="bg-surface/40 mt-10 rounded-2xl border border-muted/60 p-6">
+          <p class="text-xs tracking-wide text-foreground/70 uppercase">
             Part of project
           </p>
           <h2 class="mt-1 text-lg font-semibold text-foreground">
@@ -99,57 +98,57 @@ const relatedProjectHref = relatedProject
     }
 
     <ul class="mt-6 flex flex-wrap gap-2 text-xs font-medium">
-      {tags.map(tag => {
-        const tagSlug = slugifyStr(tag);
-        return (
-          <li>
-            <a
-              href={`/notes/?tag=${tagSlug}`}
-              class="inline-flex items-center rounded-full border border-border/70 px-3 py-1 text-foreground/80 transition hover:border-accent hover:text-accent"
-            >
-              <span class="me-1 text-sm font-semibold text-accent">#</span>
-              {tag}
-            </a>
-          </li>
-        );
-      })}
+      {
+        tags.map(tag => {
+          const tagSlug = slugifyStr(tag);
+          return (
+            <li>
+              <a
+                href={`/notes/?tag=${tagSlug}`}
+                class="inline-flex items-center rounded-full border border-border/70 px-3 py-1 text-foreground/80 transition hover:border-accent hover:text-accent"
+              >
+                <span class="me-1 text-sm font-semibold text-accent">#</span>
+                {tag}
+              </a>
+            </li>
+          );
+        })
+      }
     </ul>
 
     <BackToTopButton />
 
-    {(prevNote || nextNote) && (
-      <div
-        data-pagefind-ignore
-        class="mt-10 grid grid-cols-1 gap-6 border-t border-dashed pt-6 text-sm sm:grid-cols-2"
-      >
-        {
-          prevNote && (
+    {
+      (prevNote || nextNote) && (
+        <div
+          data-pagefind-ignore
+          class="mt-10 grid grid-cols-1 gap-6 border-t border-dashed pt-6 text-sm sm:grid-cols-2"
+        >
+          {prevNote && (
             <a
               href={getHref(prevNote)}
               class="group flex w-full items-center gap-2 rounded-xl border border-border/70 px-4 py-3 transition hover:-translate-y-0.5 hover:border-accent hover:text-accent"
             >
-              <span class="text-xs uppercase tracking-wide text-accent">
+              <span class="text-xs tracking-wide text-accent uppercase">
                 Previous
               </span>
               <span class="font-medium">{prevNote.data.title}</span>
             </a>
-          )
-        }
-        {
-          nextNote && (
+          )}
+          {nextNote && (
             <a
               href={getHref(nextNote)}
               class="group flex w-full items-center justify-end gap-2 rounded-xl border border-border/70 px-4 py-3 text-end transition hover:-translate-y-0.5 hover:border-accent hover:text-accent sm:col-start-2"
             >
-              <span class="text-xs uppercase tracking-wide text-accent">
+              <span class="text-xs tracking-wide text-accent uppercase">
                 Next
               </span>
               <span class="font-medium">{nextNote.data.title}</span>
             </a>
-          )
-        }
-      </div>
-    )}
+          )}
+        </div>
+      )
+    }
   </main>
   <Footer />
 </Layout>

@@ -11,7 +11,9 @@ tags:
 draft: false
 timezone: "Europe/Paris"
 ---
+
 ---
+
 This is the first milestone update for **OpenTradeInfra**, my personal project to build a transparent trading infrastructure using open-source tools and synthetic data.
 
 Milestone **M1 — Market Data + FIX Gateway** is now complete. The goal of this milestone was simple: get a basic but realistic FIX flow up and running end-to-end, with a clear separation between client and gateway, and full visibility into the messages.
@@ -20,9 +22,9 @@ Milestone **M1 — Market Data + FIX Gateway** is now complete. The goal of this
 
 From the project plan, M1 includes:
 
-- A **QuickFIX Acceptor** acting as the exchange side  
-- A **QuickFIX Initiator** acting as the client  
-- A **synthetic order flow generator**  
+- A **QuickFIX Acceptor** acting as the exchange side
+- A **QuickFIX Initiator** acting as the client
+- A **synthetic order flow generator**
 - Basic **validation and message handling** around NewOrderSingle and ExecutionReport
 
 This is the foundation layer for everything that comes next.
@@ -35,8 +37,8 @@ The acceptor runs from the `make run-acceptor` target and loads the `acceptor.cf
 
 It:
 
-- Starts a FIX 4.4 session (`EXCHANGE -> CLIENT`)  
-- Logs **onCreate**, **onLogon**, and **onLogout** events  
+- Starts a FIX 4.4 session (`EXCHANGE -> CLIENT`)
+- Logs **onCreate**, **onLogon**, and **onLogout** events
 - Receives application messages and prints the FIX `MsgType` (e.g. `D` for `NewOrderSingle`)
 
 ![OpenTradeInfra M1 – FIX Acceptor running](/assets/opentradeinfra/m1/m1-acceptor.png)
@@ -48,6 +50,7 @@ On the client side, the initiator runs via:
 ```bash
 make run-initiator ARGS="--orders 2 --interval 1"
 ```
+
 It:
 
 - Starts the CLIENT -> EXCHANGE session
@@ -83,6 +86,7 @@ Project structure in GitHub.
 ## How I Built This
 
 M1 is not about writing a “perfect” gateway. It’s about getting something real working:
+
 - I used QuickFIX for the protocol engine
 - Python for the application logic around events
 - A simple Makefile to hide long commands and keep the workflow repeatable

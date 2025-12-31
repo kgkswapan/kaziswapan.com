@@ -8,24 +8,26 @@ link1: "https://dx.doi.org/10.2139/ssrn.5749605"
 buttonText1: "Read the full paper"
 embedMap: ""
 ---
+
 ---
+
 ## Overview
 
 This project is a short research paper published on **SSRN** that explores **smart contracts** from a practical and critical perspective.  
-Rather than treating smart contracts as a silver bullet, the paper focuses on *how they actually work*, *what problems they genuinely solve*, and *where their limitations and risks begin*.
+Rather than treating smart contracts as a silver bullet, the paper focuses on _how they actually work_, _what problems they genuinely solve_, and _where their limitations and risks begin_.
 
 The goal was not to propose a new protocol or framework, but to clarify concepts that are often misunderstood or oversimplified in popular discussions around blockchain.
 
 ## Why I Wrote This Paper
 
-Smart contracts are frequently described as *trustless*, *self-executing*, and *fully automated*. In practice, the reality is more nuanced.
+Smart contracts are frequently described as _trustless_, _self-executing_, and _fully automated_. In practice, the reality is more nuanced.
 
 I wrote this paper to:
 
-- demystify how smart contracts really operate  
-- highlight the technical and operational assumptions behind them  
-- discuss security, governance, and dependency risks  
-- separate realistic use cases from hype  
+- demystify how smart contracts really operate
+- highlight the technical and operational assumptions behind them
+- discuss security, governance, and dependency risks
+- separate realistic use cases from hype
 
 The paper is intended for practitioners, technologists, and curious readers who want a grounded understanding rather than marketing narratives.
 
@@ -33,20 +35,20 @@ The paper is intended for practitioners, technologists, and curious readers who 
 
 The paper discusses:
 
-- The execution model of smart contracts  
-- Where automation truly begins — and where it ends  
-- The role of oracles and off-chain dependencies  
-- Common security and design pitfalls  
-- Practical limitations in real-world adoption  
+- The execution model of smart contracts
+- Where automation truly begins — and where it ends
+- The role of oracles and off-chain dependencies
+- Common security and design pitfalls
+- Practical limitations in real-world adoption
 
 It is written as an explanatory and analytical piece, not as a speculative or promotional one.
 
 ## Publication
 
-- **Platform:** SSRN  
-- **Format:** Preprint  
-- **Status:** Published  
-- **DOI:** 10.2139/ssrn.5749605 
+- **Platform:** SSRN
+- **Format:** Preprint
+- **Status:** Published
+- **DOI:** 10.2139/ssrn.5749605
 
 <div class="mt-4">
   <a

@@ -23,7 +23,8 @@ const {
   rel,
 } = Astro.props;
 
-const relAttr = rel ?? (target === "_blank" ? "noreferrer noopener" : undefined);
+const relAttr =
+  rel ?? (target === "_blank" ? "noreferrer noopener" : undefined);
 const normalizedHref = href ?? "";
 const computedHref =
   normalizedHref.startsWith("/") && !normalizedHref.startsWith("//")

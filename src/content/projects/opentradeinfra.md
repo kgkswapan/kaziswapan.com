@@ -18,10 +18,12 @@ milestoneProgress:
 ---
 
 ---
+
 **OpenTradeInfra** is my hands-on project to build a transparent, modular trading infrastructure from scratch.  
 The goal is simple: understand how modern trading systems work under the hood by designing each realistic layer myself — connectivity, data, risk, storage, monitoring, and orchestration.
 
-## **Why Build This**  
+## **Why Build This**
+
 Most trading platforms are powerful but closed systems — you interact with them every day, but the internal mechanisms are rarely visible. I’m building OpenTradeInfra as a personal learning project to demystify these systems for myself, using only open-source tools and synthetic data.
 
 Understanding the full engineering lifecycle of a trade — from connectivity to trade capture, to risk, to monitoring — helps me think more clearly and operate more effectively in my professional role. It sharpens troubleshooting instincts, deepens technical understanding, and gives me a clearer mental model of the systems I support.
@@ -30,9 +32,9 @@ This project is intentionally scoped to the parts of the trade lifecycle that ca
 
 Everything here is:
 
-- open,  
-- testable,  
-- documented,  
+- open,
+- testable,
+- documented,
 - and built from first principles.
 
 It’s both a long-term engineering project and a structured learning journey.
@@ -41,40 +43,48 @@ I rely heavily on AI throughout this project — for planning, structuring compo
 
 ## **Project Milestones**
 
-### **M1 — Market Data + FIX Gateway (Completed)**  
-- QuickFIX Acceptor + Initiator  
-- Synthetic order flow generator  
-- Basic validation and message handling  
+### **M1 — Market Data + FIX Gateway (Completed)**
 
-### **M2 — Trade Capture DB**  
-- PostgreSQL schema for trades and positions  
-- FIX log parser  
-- Trade persistence pipeline  
+- QuickFIX Acceptor + Initiator
+- Synthetic order flow generator
+- Basic validation and message handling
 
-### **M3 — Risk Engine**  
-- Real-time P&L  
-- VaR and Greeks (QuantLib)  
-- Risk aggregation  
+### **M2 — Trade Capture DB**
 
-### **M4 — Monitoring & Automation**  
-- Prometheus metrics  
-- Grafana dashboards  
-- PowerShell automation scripts  
+- PostgreSQL schema for trades and positions
+- FIX log parser
+- Trade persistence pipeline
 
-### **M5 — Messaging + Logging**  
-- RabbitMQ or Kafka integration  
-- ELK stack for logs  
+### **M3 — Risk Engine**
 
-### **M6 — Orchestration + CI/CD**  
-- Docker Compose → Kubernetes  
-- GitHub Actions pipeline  
+- Real-time P&L
+- VaR and Greeks (QuantLib)
+- Risk aggregation
 
-### **M7 — UI & Final Integration**  
-- Streamlit/Dash UI  
-- Project whitepaper  
-- GitHub Release v1.0  
+### **M4 — Monitoring & Automation**
 
-## **Current Status**  
+- Prometheus metrics
+- Grafana dashboards
+- PowerShell automation scripts
+
+### **M5 — Messaging + Logging**
+
+- RabbitMQ or Kafka integration
+- ELK stack for logs
+
+### **M6 — Orchestration + CI/CD**
+
+- Docker Compose → Kubernetes
+- GitHub Actions pipeline
+
+### **M7 — UI & Final Integration**
+
+- Streamlit/Dash UI
+- Project whitepaper
+- GitHub Release v1.0
+
+## **Current Status**
+
 Milestone **M1** is actively in progress.  
 Market data simulation and the FIX gateway are functioning, with successful test messages and order flows verified. A detailed write-up of Milestone 1 is available in my Notes.
 
