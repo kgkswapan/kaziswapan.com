@@ -14,12 +14,10 @@ export interface Props {
 export async function getStaticPaths() {
   const notes = await getCollection("notes");
 
-  return notes
-    .filter(noteFilter)
-    .map(note => ({
-      params: { slug: getNoteSlug(note) },
-      props: { note },
-    }));
+  return notes.filter(noteFilter).map(note => ({
+    params: { slug: getNoteSlug(note) },
+    props: { note },
+  }));
 }
 
 const { note } = Astro.props;

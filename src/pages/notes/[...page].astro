@@ -33,55 +33,61 @@ const moreTagsAvailable = tags.length > topTagLimit;
   <Main pageTitle="Notes" pageDesc="Ideas, research, and short reflections.">
     <SearchInline id="notes-search" backUrl={Astro.url.pathname} />
 
-    {tags.length > 0 && (
-      <section class="section-unstyled mt-6 px-0" data-note-tags>
-        <div class="flex flex-wrap gap-2 text-sm" data-tag-list>
-          {tags.map((tag, index) => (
-            <a
-              href={`/notes/?tag=${tag.tag}`}
-              class="group inline-flex items-center rounded-full border border-border/70 px-3 py-1 text-xs font-medium text-foreground/80 transition hover:border-accent hover:text-accent"
-              hidden={index >= topTagLimit}
-              data-note-tag
-              data-tag={tag.tag}
-              data-count={tag.count}
-              data-tag-extra={index >= topTagLimit}
+    {
+      tags.length > 0 && (
+        <section class="section-unstyled mt-6 px-0" data-note-tags>
+          <div class="flex flex-wrap gap-2 text-sm" data-tag-list>
+            {tags.map((tag, index) => (
+              <a
+                href={`/notes/?tag=${tag.tag}`}
+                class="group inline-flex items-center rounded-full border border-border/70 px-3 py-1 text-xs font-medium text-foreground/80 transition hover:border-accent hover:text-accent"
+                hidden={index >= topTagLimit}
+                data-note-tag
+                data-tag={tag.tag}
+                data-count={tag.count}
+                data-tag-extra={index >= topTagLimit}
+              >
+                <span class="me-1 text-sm font-semibold text-accent">#</span>
+                <span>{tag.tagName}</span>
+                <span class="ms-1 rounded-full bg-muted px-2 py-0.5 text-[0.7rem] font-semibold text-foreground/70">
+                  {tag.count}
+                </span>
+              </a>
+            ))}
+          </div>
+          {moreTagsAvailable && (
+            <button
+              type="button"
+              class="mt-3 text-sm font-medium text-accent underline underline-offset-4 hover:text-accent/80"
+              data-tags-toggle
             >
-              <span class="me-1 text-sm font-semibold text-accent">#</span>
-              <span>{tag.tagName}</span>
-              <span class="ms-1 rounded-full bg-muted px-2 py-0.5 text-[0.7rem] font-semibold text-foreground/70">
-                {tag.count}
-              </span>
-            </a>
-          ))}
-        </div>
-        {moreTagsAvailable && (
+              Show more tags
+            </button>
+          )}
           <button
             type="button"
-            class="mt-3 text-sm font-medium text-accent underline underline-offset-4 hover:text-accent/80"
-            data-tags-toggle
+            class="mt-4 hidden text-sm font-medium text-accent underline underline-offset-4 hover:text-accent/80"
+            data-tags-clear
           >
-            Show more tags
+            Clear filter
           </button>
-        )}
-        <button
-          type="button"
-          class="mt-4 hidden text-sm font-medium text-accent underline underline-offset-4 hover:text-accent/80"
-          data-tags-clear
-        >
-          Clear filter
-        </button>
-      </section>
-    )}
+        </section>
+      )
+    }
 
     <section class="section-unstyled mt-8 px-0">
       <div data-note-grid>
-        {page.data.length > 0 ? (
-          <div class="grid gap-6 md:grid-cols-2">
-            {page.data.map(note => <NoteCard note={note} />)}
-          </div>
-        ) : (
-          <p class="text-muted">No notes published yet.</p>
-        )}
+        {
+          page.data.length > 0 ? (
+            <div class="grid gap-6 md:grid-cols-2">
+              {page.data.map(note => (
+                <NoteCard note={note} />
+              ))}
+            </div>
+          ) : (
+            <p class="text-muted">No notes published yet.</p>
+          )
+        }
       </div>
       <div class="hidden" data-filtered-grid aria-live="polite"></div>
     </section>
@@ -93,15 +99,17 @@ const moreTagsAvailable = tags.length > topTagLimit;
 </Layout>
 
 <div class="hidden" aria-hidden="true">
-  {allNotes.map(note => (
-    <template
-      data-note-template
-      data-slug={getNoteSlug(note)}
-      data-tags={note.data.tags.map(tag => slugifyStr(tag)).join(" ")}
-    >
-      <NoteCard note={note} />
-    </template>
-  ))}
+  {
+    allNotes.map(note => (
+      <template
+        data-note-template
+        data-slug={getNoteSlug(note)}
+        data-tags={note.data.tags.map(tag => slugifyStr(tag)).join(" ")}
+      >
+        <NoteCard note={note} />
+      </template>
+    ))
+  }
 </div>
 
 <script is:inline>
@@ -137,7 +145,9 @@ const moreTagsAvailable = tags.length > topTagLimit;
       getExtraButtons().forEach(btn =>
         btn.toggleAttribute("hidden", !showAllTags)
       );
-      toggleBtn.textContent = showAllTags ? "Show fewer tags" : "Show more tags";
+      toggleBtn.textContent = showAllTags
+        ? "Show fewer tags"
+        : "Show more tags";
     });
 
     const updateActive = slug => {
@@ -156,7 +166,11 @@ const moreTagsAvailable = tags.length > topTagLimit;
       pagination?.classList.remove("hidden");
       clearBtn?.classList.add("hidden");
       urlParams.delete("tag");
-      history.replaceState(history.state, "", `${window.location.pathname}?${urlParams.toString()}`.replace(/\?$/, ""));
+      history.replaceState(
+        history.state,
+        "",
+        `${window.location.pathname}?${urlParams.toString()}`.replace(/\?$/, "")
+      );
       updateActive(null);
     };
 
@@ -171,9 +185,7 @@ const moreTagsAvailable = tags.length > topTagLimit;
         const wrapper = document.createElement("div");
         wrapper.className = "grid gap-6 md:grid-cols-2";
         matches.forEach(note => {
-          wrapper.appendChild(
-            note.fragment.cloneNode(true)
-          );
+          wrapper.appendChild(note.fragment.cloneNode(true));
         });
         filteredGrid.appendChild(wrapper);
       }
@@ -196,7 +208,11 @@ const moreTagsAvailable = tags.length > topTagLimit;
 
         updateActive(slug);
         urlParams.set("tag", slug);
-        history.replaceState(history.state, "", `${window.location.pathname}?${urlParams.toString()}`);
+        history.replaceState(
+          history.state,
+          "",
+          `${window.location.pathname}?${urlParams.toString()}`
+        );
         renderFiltered(slug);
       });
     });

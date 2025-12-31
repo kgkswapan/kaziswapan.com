@@ -26,8 +26,9 @@ const { project } = Astro.props;
 const { Content } = await render(project);
 const { title, summary, tech, link, ssrn, noteTag } = project.data;
 const embedMap = (project.data as { embedMap?: string }).embedMap;
-const milestoneProgress = project.data
-  .milestoneProgress as Record<string, number> | undefined;
+const milestoneProgress = project.data.milestoneProgress as
+  | Record<string, number>
+  | undefined;
 const hasTech = typeof tech === "string" && tech.trim().length > 0;
 const techList = hasTech
   ? tech
@@ -79,38 +80,42 @@ const notes = noteTag
   <BackButton />
   <main class="mx-auto w-full max-w-app px-4 pb-12">
     <h1 class="text-2xl font-semibold text-foreground sm:text-3xl">{title}</h1>
-    <p class="mt-2 text-base italic text-foreground/80">{summary}</p>
-    {techList.length > 0 && (
-      <div class="mt-4 flex flex-wrap items-center gap-3 text-sm font-medium text-foreground">
-        <span class="font-semibold uppercase tracking-wide text-foreground/70">
-          Tech
-        </span>
-        <div class="flex flex-wrap gap-2">
-          {techList.map(item => (
-            <span class="rounded-full border border-accent/60 px-3 py-1 text-xs font-semibold text-accent">
-              {item}
-            </span>
+    <p class="mt-2 text-base text-foreground/80 italic">{summary}</p>
+    {
+      techList.length > 0 && (
+        <div class="mt-4 flex flex-wrap items-center gap-3 text-sm font-medium text-foreground">
+          <span class="font-semibold tracking-wide text-foreground/70 uppercase">
+            Tech
+          </span>
+          <div class="flex flex-wrap gap-2">
+            {techList.map(item => (
+              <span class="rounded-full border border-accent/60 px-3 py-1 text-xs font-semibold text-accent">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      )
+    }
+    {milestoneProgress && <MilestoneProgress milestones={milestoneProgress} />}
+    {
+      linkButtons.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-3">
+          {linkButtons.map(button => (
+            <LinkButton
+              class="rounded-full border border-accent/70 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
+              href={button.href}
+              target="_blank"
+            >
+              {button.text}
+            </LinkButton>
           ))}
         </div>
-      </div>
-    )}
-    {milestoneProgress && (
-      <MilestoneProgress milestones={milestoneProgress} />
-    )}
-    {linkButtons.length > 0 && (
-      <div class="mt-4 flex flex-wrap gap-3">
-        {linkButtons.map(button => (
-          <LinkButton
-            class="rounded-full border border-accent/70 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
-            href={button.href}
-            target="_blank"
-          >
-            {button.text}
-          </LinkButton>
-        ))}
-      </div>
-    )}
-    <article class="app-prose mx-auto mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)">
+      )
+    }
+    <article
+      class="app-prose mx-auto mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
+    >
       <Content />
     </article>
     {
@@ -130,16 +135,18 @@ const notes = noteTag
       )
     }
 
-    {notes.length > 0 && (
-      <section class="section-unstyled mt-12 border-t border-muted/60 px-0 pt-10">
-        <h2 class="text-xl font-semibold text-foreground">
-          Related notes
-        </h2>
-        <div class="mt-6 grid gap-6 md:grid-cols-2">
-          {notes.map(note => <NoteCard note={note} />)}
-        </div>
-      </section>
-    )}
+    {
+      notes.length > 0 && (
+        <section class="section-unstyled mt-12 border-t border-muted/60 px-0 pt-10">
+          <h2 class="text-xl font-semibold text-foreground">Related notes</h2>
+          <div class="mt-6 grid gap-6 md:grid-cols-2">
+            {notes.map(note => (
+              <NoteCard note={note} />
+            ))}
+          </div>
+        </section>
+      )
+    }
   </main>
   <Footer />
 </Layout>

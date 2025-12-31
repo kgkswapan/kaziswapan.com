@@ -24,7 +24,7 @@ If the mind is too small or too rigid, the extra simply spills out. We hear thin
 
 That's why broadening our mind is just as important as learning new things.
 
-Now, *how* do we broaden it?  
+Now, _how_ do we broaden it?  
 This is a lifelong battle, honestly. But maybe it starts with being aware — being present enough to notice our own limitations. When something annoys us, challenges us, or triggers our ego, that's usually the exact point where the bucket is hitting its limit.
 
 Another way is to read and listen to different opinions, and actually think through them.  

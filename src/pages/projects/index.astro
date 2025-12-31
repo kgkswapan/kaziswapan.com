@@ -8,44 +8,48 @@ import ProjectCard from "@/components/ProjectCard.astro";
 
 const projects = await getCollection("projects");
 
-const grouped = [...projects.reduce((map, project) => {
-  const { category } = project.data;
-  const items = map.get(category) ?? [];
-  items.push(project);
-  map.set(category, items);
-  return map;
-}, new Map<string, typeof projects>()).entries()]
+const grouped = [
+  ...projects
+    .reduce((map, project) => {
+      const { category } = project.data;
+      const items = map.get(category) ?? [];
+      items.push(project);
+      map.set(category, items);
+      return map;
+    }, new Map<string, typeof projects>())
+    .entries(),
+]
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([title, items]) => ({
     title,
-    id: title.toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, ""),
+    id: title
+      .toLowerCase()
+      .replace(/[^a-z]+/g, "-")
+      .replace(/^-|-$/g, ""),
     items,
   }));
 ---
 
 <Layout>
   <Header />
-  <Main
-    pageTitle="Projects"
-    pageDesc="A curated collection of what I build."
-  >
-    {grouped.map(section => (
-      <section
-        id={section.id}
-        class="section-unstyled mb-12 scroll-mt-24 px-0"
-      >
-        <h2 class="text-xl font-semibold text-foreground">{section.title}</h2>
-        <div class="mt-6 grid gap-6 sm:grid-cols-2">
-          {section.items.length > 0 ? (
-            section.items.map(project => <ProjectCard project={project} />)
-          ) : (
-            <p class="text-sm text-muted">
-              Project entries coming soon.
-            </p>
-          )}
-        </div>
-      </section>
-    ))}
+  <Main pageTitle="Projects" pageDesc="A curated collection of what I build.">
+    {
+      grouped.map(section => (
+        <section
+          id={section.id}
+          class="section-unstyled mb-12 scroll-mt-24 px-0"
+        >
+          <h2 class="text-xl font-semibold text-foreground">{section.title}</h2>
+          <div class="mt-6 grid gap-6 sm:grid-cols-2">
+            {section.items.length > 0 ? (
+              section.items.map(project => <ProjectCard project={project} />)
+            ) : (
+              <p class="text-sm text-muted">Project entries coming soon.</p>
+            )}
+          </div>
+        </section>
+      ))
+    }
   </Main>
   <Footer />
 </Layout>

@@ -6,7 +6,9 @@ import { join, resolve } from "node:path";
 const [, , targetScript, ...restArgs] = process.argv;
 
 if (!targetScript) {
-  console.error("Usage: run-with-log.mjs <npm-script> [-- extra args]");
+  process.stderr.write(
+    "Usage: run-with-log.mjs <npm-script> [-- extra args]\n"
+  );
   process.exit(1);
 }
 
@@ -21,7 +23,7 @@ const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
 const safeName = targetScript.replace(/[^a-z0-9-]/gi, "_");
 const logFile = join(logsDir, `${safeName}-${timestamp}.log`);
 
-console.log(`Logging output of "${targetScript}" to ${logFile}`);
+process.stdout.write(`Logging output of "${targetScript}" to ${logFile}\n`);
 
 const logStream = createWriteStream(logFile, { flags: "a" });
 
