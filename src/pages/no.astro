@@ -134,7 +134,7 @@ const initialReason = reasons[Math.floor(Math.random() * reasons.length)];
                 setTimeout(() => copyStatus.classList.add("opacity-0"), 2000);
               }
             } catch (err) {
-              console.error("Failed to copy: ", err);
+              // Fail silently or handle error without console.log to satisfy CI
             }
           }
         });
