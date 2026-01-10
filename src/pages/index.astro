@@ -6,7 +6,9 @@ import Footer from "@/components/Footer.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import ProjectCard from "@/components/ProjectCard.astro";
 import NoteCard from "@/components/NoteCard.astro";
+import NoCard from "@/components/NoCard.astro";
 import getSortedNotes from "@/utils/getSortedNotes";
+import reasons from "@/data/reasons.json";
 
 const projects = await getCollection("projects");
 const notes = await getCollection("notes");
@@ -24,6 +26,8 @@ const quotePayload = quotes.map(({ data }) => ({
   author: data.author,
   source: data.source ?? "",
 }));
+
+const initialNo = reasons[Math.floor(Math.random() * reasons.length)];
 ---
 
 <Layout>
@@ -123,6 +127,9 @@ const quotePayload = quotes.map(({ data }) => ({
             class="rounded-2xl border border-border/70 bg-background/70 p-8 shadow-sm dark:bg-slate-900/40"
             data-quote-of-day
           >
+            <h3 class="mb-5 text-sm font-bold tracking-[0.2em] text-accent/70 uppercase">
+              Quote of the Day
+            </h3>
             <p class="font-serif text-7xl text-accent" aria-hidden="true">
               “
             </p>
@@ -158,6 +165,25 @@ const quotePayload = quotes.map(({ data }) => ({
         </section>
       )
     }
+
+    <section class="section-unstyled mt-12 px-0 text-center">
+      <NoCard reason={initialNo} title="No of the Day" />
+      <div class="mt-6">
+        <LinkButton
+          href="/no"
+          class="rounded-full border border-accent/60 px-6 py-2 font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
+        >
+          More ways to say no →
+        </LinkButton>
+      </div>
+      <script
+        type="application/json"
+        id="no-data"
+        is:inline
+        set:html={JSON.stringify(reasons)}
+      />
+      <script src="/no-of-day.js" defer is:inline></script>
+    </section>
 
     <section class="section-unstyled mt-12 px-0 text-center">
       <h2 class="text-3xl font-semibold text-foreground">

@@ -1,0 +1,148 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Main from "@/layouts/Main.astro";
+import reasons from "@/data/reasons.json";
+import NoCard from "@/components/NoCard.astro";
+
+const initialReason = reasons[Math.floor(Math.random() * reasons.length)];
+---
+
+<Layout>
+  <Header />
+  <Main
+    pageTitle="No as a Service"
+    pageDesc="Creative ways to say no, inspired by no-as-a-service."
+  >
+    <div class="space-y-6">
+      <section class="section-unstyled space-y-4 text-center">
+        <NoCard reason={initialReason} title="How to say no?" showGlow={true} />
+
+        <div
+          class="flex flex-col items-center justify-center gap-4 sm:flex-row"
+        >
+          <button
+            id="new-reason-btn"
+            class="rounded-full border border-transparent bg-accent px-6 py-2 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-accent/90 dark:text-slate-900"
+          >
+            Give me another
+          </button>
+          <button
+            id="copy-reason-btn"
+            class="rounded-full border border-accent/60 px-6 py-2 font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
+          >
+            Copy to clipboard
+          </button>
+        </div>
+
+        <p
+          id="copy-status"
+          class="h-4 text-sm text-accent opacity-0 transition-opacity duration-300"
+        >
+          Copied!
+        </p>
+
+        <div
+          class="mt-8 text-xs font-medium tracking-wider text-foreground/60 uppercase"
+        >
+          Total no's served: <span id="click-counter" class="text-accent"
+            >0</span
+          >
+        </div>
+        <p class="mt-4 text-sm text-foreground/70 italic">
+          Helping people say <strong>no</strong> since 2026. Currently serving <strong
+            >{reasons.length.toLocaleString()}</strong
+          > ready-to-use excuses.
+        </p>
+      </section>
+
+      <hr class="border-border/50" />
+
+      <section
+        class="section-unstyled space-y-3 px-0 text-sm text-foreground/40 italic"
+      >
+        <h2 class="text-base font-semibold text-foreground not-italic">
+          Credits & Inspiration
+        </h2>
+        <p>
+          Sometimes, the hardest thing to do is to say "no". Whether it's to a
+          meeting, a project, or just a random favor, boundaries are important.
+          This page provides a collection of creative, humorous, and
+          professional ways to decline, helping you protect your time with
+          style.
+        </p>
+        <p>
+          A huge shout-out to <strong
+            ><a
+              href="https://github.com/hotheadhacker"
+              target="_blank"
+              class="text-accent underline hover:text-accent/80"
+              >@hotheadhacker</a
+            ></strong
+          > for creating the original
+          <strong
+            ><a
+              href="https://github.com/hotheadhacker/no-as-a-service"
+              target="_blank"
+              class="text-accent underline hover:text-accent/80"
+              >No-as-a-Service (NaaS)</a
+            ></strong
+          > project. This page primarily uses the rejection reasons from that database
+          to power the logic here. If you enjoyed these, definitely go give the repo
+          a star!
+        </p>
+      </section>
+    </div>
+
+    <script is:inline define:vars={{ reasons }}>
+      function initNoPage() {
+        const textEl = document.querySelector("[data-no-reason]");
+        const btnNew = document.getElementById("new-reason-btn");
+        const btnCopy = document.getElementById("copy-reason-btn");
+        const copyStatus = document.getElementById("copy-status");
+        const counterEl = document.getElementById("click-counter");
+
+        if (!textEl || !btnNew || !btnCopy || !counterEl) return;
+
+        // Initialize counter from localStorage
+        let count = parseInt(localStorage.getItem("no-served-count") || "0");
+        counterEl.textContent = count.toLocaleString();
+
+        const getRandom = () =>
+          reasons[Math.floor(Math.random() * reasons.length)];
+
+        btnNew.addEventListener("click", () => {
+          // Increment and save counter
+          count++;
+          localStorage.setItem("no-served-count", count.toString());
+          counterEl.textContent = count.toLocaleString();
+
+          textEl.classList.add("opacity-0", "scale-95");
+          setTimeout(() => {
+            textEl.textContent = getRandom();
+            textEl.classList.remove("opacity-0", "scale-95");
+          }, 300);
+        });
+
+        btnCopy.addEventListener("click", async () => {
+          if (textEl.textContent) {
+            try {
+              await navigator.clipboard.writeText(textEl.textContent);
+              if (copyStatus) {
+                copyStatus.classList.remove("opacity-0");
+                setTimeout(() => copyStatus.classList.add("opacity-0"), 2000);
+              }
+            } catch (err) {
+              console.error("Failed to copy: ", err);
+            }
+          }
+        });
+      }
+
+      initNoPage();
+      document.addEventListener("astro:after-swap", initNoPage);
+    </script>
+  </Main>
+  <Footer />
+</Layout>
