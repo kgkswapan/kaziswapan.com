@@ -133,7 +133,7 @@ const initialReason = reasons[Math.floor(Math.random() * reasons.length)];
                 copyStatus.classList.remove("opacity-0");
                 setTimeout(() => copyStatus.classList.add("opacity-0"), 2000);
               }
-            } catch (err) {
+            } catch {
               // Fail silently or handle error without console.log to satisfy CI
             }
           }
