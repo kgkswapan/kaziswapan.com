@@ -33,6 +33,7 @@ This document gives new contributors (human or AI) an immediate understanding of
 | Build + Pagefind | `npm run build` |
 | Format | `npm run format` |
 | Lint | `npm run lint` |
+| Generate book markdown | `node ./scripts/generate-book-markdown.mjs` |
 
 Before pushing, run `npm run build` to ensure Astro compiles and Pagefind indexes.
 

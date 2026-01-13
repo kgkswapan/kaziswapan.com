@@ -1,0 +1,13 @@
+---
+title: "Don't Make Me Think, Revisited: A Common Sense Approach to Web Usability"
+author: "Krug Steve"
+status: "read"
+goodreadsId: "20433135"
+averageRating: 4.33
+numPages: 210
+published: "2000"
+affiliateLink: ""
+noteSlug: ""
+description: |
+  Since it was first published in 2000, hundreds of thousands of Web designers and developers have relied on usability guru Steve Krug's guide to understand the principles of intuitive navigation and information design. Witty, commonsensical, and eminently practical, it's one of the best loved and most recommended books on the subject. It's a core foundational book that every Web designer must internalize to make their designs truly effective.<br /> <br />In this substantially revised edition, Steve returns with fresh perspective to reconsider the principles he originally laid out--commenting, amending, amplifying, and offering fresh new examples to underscore their importance. This edition adds an important new chapter on mobile as well as integrating coverage of mobile throughout. It's a complete reimagining of the concepts that made this book an instant classic.
+---

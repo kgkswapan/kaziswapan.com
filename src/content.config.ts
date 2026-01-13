@@ -59,7 +59,7 @@ const books = defineCollection({
       averageRating: z.number().optional(),
       numPages: z.number().optional(),
       published: z.string().optional(),
-      affiliateLink: z.string().url().optional(),
+      affiliateLink: z.string().url().or(z.literal("")).optional(),
       noteSlug: z.string().optional(),
       description: z.string().optional(),
     }),
