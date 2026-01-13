@@ -1,7 +1,7 @@
 ---
 title: "Principles: Life and Work"
 author: "Ray Dalio"
-status: "currently-reading"
+status: "read"
 goodreadsId: "34941133"
 averageRating: 4.19
 numPages: 592

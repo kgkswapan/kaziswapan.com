@@ -1,7 +1,7 @@
 ---
 title: "The Intelligent Investor"
 author: "Benjamin Graham"
-status: "currently-reading"
+status: "read"
 goodreadsId: "106835"
 isbn: "0060555661"
 averageRating: 4.23

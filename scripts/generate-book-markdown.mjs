@@ -71,6 +71,7 @@ const fetchShelf = async shelf => {
     `https://www.goodreads.com/review/list_rss/${GOODREADS_USER_ID}`
   );
   url.searchParams.set("shelf", shelf);
+  url.searchParams.set("per_page", "200");
   if (shelf === "read") {
     url.searchParams.set("sort", "date_read");
     url.searchParams.set("order", "d");
