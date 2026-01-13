@@ -9,7 +9,7 @@ This document gives new contributors (human or AI) an immediate understanding of
   - `notes`: Markdown files in `src/content/notes/` using frontmatter `{ title, summary, pubDatetime, tags, draft?, timezone? }`. Notes feed the `/notes` listing, note cards, tag cloud, and note detail pages.
   - `projects`: Markdown files in `src/content/projects/` using frontmatter `{ title, summary, tech, link?, ssrn?, category, noteTag?, featured? }`. Projects feed the `/projects` listing and individual project detail pages.
   - `quotes`: Markdown files in `src/content/quotes/` using frontmatter `{ quote, author, source?, tags? }`. Quotes feed the `/quotes` listing and the home page quote-of-the-day.
-  - `books`: Markdown files in `src/content/books/` used as overrides/manual entries. Frontmatter `{ title, author, status?, goodreadsId?, isbn?, amazonAsin?, affiliateLink?, noteSlug?, slug?, coverUrl?, goodreadsLink? }`.
+  - `books`: Markdown files in `src/content/books/` used as overrides/manual entries. Frontmatter `{ title, author, status?, goodreadsId?, isbn?, averageRating?, numPages?, published?, affiliateLink?, noteSlug?, slug?, description? }`.
 - **Key Pages**:
   - `src/pages/index.astro`: Home page with hero, featured projects (filtered by `featured` flag, alphabetical), recent notes (latest 4), and contact CTA.
   - `src/pages/notes/[...page].astro`: Paginated notes listing with tag filtering and inline search.
@@ -20,6 +20,7 @@ This document gives new contributors (human or AI) an immediate understanding of
   - `src/pages/quotes/[...page].astro`: Quotes listing (10 per page) with card layout.
   - `src/pages/no.astro`: No‑as‑a‑service page that renders a random refusal.
   - `src/pages/books/index.astro`: Goodreads + local books listing (currently-reading + read) with infinite scroll for recent reads.
+  - `src/pages/books/[slug].astro`: Book detail page (cover, rating, description, optional Amazon button, related note).
 - **Components**: `NoteCard`, `ProjectCard`, `LinkButton`, `SearchInline`, etc. Reuse these for consistency.
   - Header navigation groups “Quotes”, “Books I am reading”, and “No‑as‑a‑Service” under “Resources”.
 

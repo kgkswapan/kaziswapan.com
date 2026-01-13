@@ -10,7 +10,15 @@ const BOOKS_PER_PAGE = 12;
 const { currentReading, read } = await getBooksData();
 
 const initialRead = read.slice(0, BOOKS_PER_PAGE);
-const readPayload = JSON.stringify(read).replace(/</g, "\\u003c");
+const readPayload = JSON.stringify(
+  read.map(book => ({
+    title: book.title,
+    author: book.author,
+    image: book.image,
+    slug: book.slug,
+    dateReadLabel: book.dateReadLabel,
+  }))
+).replace(/</g, "\\u003c");
 ---
 
 <Layout>
@@ -45,17 +53,7 @@ const readPayload = JSON.stringify(read).replace(/</g, "\\u003c");
                     Currently reading
                   </span>
                   <h3 class="text-lg font-semibold text-foreground">
-                    {book.goodreadsLink ? (
-                      <a
-                        href={book.goodreadsLink}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {book.title}
-                      </a>
-                    ) : (
-                      book.title
-                    )}
+                    <a href={`/books/${book.slug}/`}>{book.title}</a>
                   </h3>
                   <p class="text-sm text-foreground/80">{book.author}</p>
                 </div>
@@ -103,17 +101,7 @@ const readPayload = JSON.stringify(read).replace(/</g, "\\u003c");
                     Read
                   </span>
                   <h3 class="text-lg font-semibold text-foreground">
-                    {book.goodreadsLink ? (
-                      <a
-                        href={book.goodreadsLink}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {book.title}
-                      </a>
-                    ) : (
-                      book.title
-                    )}
+                    <a href={`/books/${book.slug}/`}>{book.title}</a>
                   </h3>
                   <p class="text-sm text-foreground/80">{book.author}</p>
                   {book.dateReadLabel && (
@@ -195,16 +183,10 @@ const readPayload = JSON.stringify(read).replace(/</g, "\\u003c");
             const title = document.createElement("h3");
             title.className = "text-lg font-semibold text-foreground";
 
-            if (book.goodreadsLink) {
-              const link = document.createElement("a");
-              link.href = book.goodreadsLink;
-              link.target = "_blank";
-              link.rel = "noreferrer";
-              link.textContent = book.title;
-              title.appendChild(link);
-            } else {
-              title.textContent = book.title;
-            }
+            const link = document.createElement("a");
+            link.href = `/books/${book.slug}/`;
+            link.textContent = book.title;
+            title.appendChild(link);
 
             const author = document.createElement("p");
             author.className = "text-sm text-foreground/80";
