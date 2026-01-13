@@ -78,8 +78,9 @@ const parseGoodreadsRss = (xml: string, shelf: BookStatus): GoodreadsBook[] => {
     const author = extractTag(item, "author_name");
     const goodreadsId = extractTag(item, "book_id");
     const image =
-      extractTag(item, "book_image_url") ||
-      extractTag(item, "book_medium_image_url");
+      extractTag(item, "book_large_image_url") ||
+      extractTag(item, "book_medium_image_url") ||
+      extractTag(item, "book_image_url");
     const isbn = extractTag(item, "isbn");
     const averageRatingRaw = extractTag(item, "average_rating");
     const numPagesRaw = extractTag(item, "num_pages");
