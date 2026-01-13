@@ -13,9 +13,11 @@ export type MergedBook = {
   author: string;
   image?: string;
   goodreadsId?: string;
-  goodreadsLink?: string;
   isbn?: string;
-  amazonAsin?: string;
+  averageRating?: number;
+  numPages?: number;
+  published?: string;
+  description?: string;
   affiliateLink?: string;
   noteSlug?: string;
   status: BookStatus;
@@ -29,8 +31,11 @@ type GoodreadsBook = {
   title: string;
   author: string;
   image?: string;
-  goodreadsLink?: string;
   isbn?: string;
+  averageRating?: number;
+  numPages?: number;
+  published?: string;
+  description?: string;
   dateRead?: string;
   dateReadLabel?: string;
   status: BookStatus;
@@ -42,12 +47,12 @@ type LocalBook = {
   slug?: string;
   status?: BookStatus;
   goodreadsId?: string;
-  goodreadsLink?: string;
   isbn?: string;
-  amazonAsin?: string;
+  averageRating?: number;
+  numPages?: number;
+  published?: string;
   affiliateLink?: string;
   noteSlug?: string;
-  coverUrl?: string;
   description?: string;
 };
 
@@ -71,13 +76,18 @@ const parseGoodreadsRss = (xml: string, shelf: BookStatus): GoodreadsBook[] => {
   return items.reduce<GoodreadsBook[]>((acc, item) => {
     const title = extractTag(item, "title");
     const author = extractTag(item, "author_name");
-    const link = extractTag(item, "link");
     const goodreadsId = extractTag(item, "book_id");
     const image =
-      extractTag(item, "book_medium_image_url") ||
-      extractTag(item, "book_image_url");
+      extractTag(item, "book_image_url") ||
+      extractTag(item, "book_medium_image_url");
     const isbn = extractTag(item, "isbn");
+    const averageRatingRaw = extractTag(item, "average_rating");
+    const numPagesRaw = extractTag(item, "num_pages");
+    const published = extractTag(item, "book_published");
+    const description = extractTag(item, "book_description");
     const dateRead = extractTag(item, "user_read_at");
+    const averageRating = Number.parseFloat(averageRatingRaw);
+    const numPages = Number.parseInt(numPagesRaw, 10);
 
     if (!title || !author) return acc;
 
@@ -86,8 +96,11 @@ const parseGoodreadsRss = (xml: string, shelf: BookStatus): GoodreadsBook[] => {
       title,
       author,
       image: image || undefined,
-      goodreadsLink: link || undefined,
       isbn: isbn || undefined,
+      averageRating: Number.isFinite(averageRating) ? averageRating : undefined,
+      numPages: Number.isFinite(numPages) ? numPages : undefined,
+      published: published || undefined,
+      description: description || undefined,
       dateRead: dateRead || undefined,
       dateReadLabel: dateRead ? formatDate(dateRead) : undefined,
       status: shelf,
@@ -128,15 +141,22 @@ const normalizeLocalBook = (entry: CollectionEntry<"books">): LocalBook => {
     slug: data.slug,
     status: data.status,
     goodreadsId: data.goodreadsId,
-    goodreadsLink: data.goodreadsLink,
     isbn: data.isbn,
-    amazonAsin: data.amazonAsin,
+    averageRating: data.averageRating,
+    numPages: data.numPages,
+    published: data.published,
     affiliateLink: data.affiliateLink,
     noteSlug: data.noteSlug,
-    coverUrl: data.coverUrl,
     description: data.description,
   };
 };
+
+const OVERRIDE_KEYS: Array<keyof LocalBook> = [
+  "slug",
+  "status",
+  "affiliateLink",
+  "noteSlug",
+];
 
 const applyOverrides = (
   base: MergedBook,
@@ -145,20 +165,30 @@ const applyOverrides = (
   if (!overrides) return base;
 
   const merged: MergedBook = { ...base };
-  const entries = Object.entries(overrides) as [
-    keyof LocalBook,
-    LocalBook[keyof LocalBook],
-  ][];
+  OVERRIDE_KEYS.forEach(key => {
+    const value = overrides[key];
+    if (value === undefined || value === "") return;
 
-  entries.forEach(([key, value]) => {
-    if (value !== undefined && value !== "") {
-      if (key === "coverUrl") {
-        merged.image = String(value);
-      } else if (key === "goodreadsLink") {
-        merged.goodreadsLink = String(value);
-      } else {
-        (merged as Record<string, unknown>)[key] = value;
+    if (key === "slug") {
+      merged.slug = String(value);
+      if (!merged.goodreadsId) {
+        merged.id = merged.slug;
       }
+      return;
+    }
+
+    if (key === "status") {
+      merged.status = value as BookStatus;
+      return;
+    }
+
+    if (key === "affiliateLink") {
+      merged.affiliateLink = String(value);
+      return;
+    }
+
+    if (key === "noteSlug") {
+      merged.noteSlug = String(value);
     }
   });
 
@@ -208,8 +238,11 @@ const buildMergedBook = (
     author: goodreads.author,
     image: goodreads.image,
     goodreadsId: goodreads.goodreadsId,
-    goodreadsLink: goodreads.goodreadsLink,
     isbn: goodreads.isbn,
+    averageRating: goodreads.averageRating,
+    numPages: goodreads.numPages,
+    published: goodreads.published,
+    description: goodreads.description,
     status: goodreads.status,
     dateRead: goodreads.dateRead,
     dateReadLabel: goodreads.dateReadLabel,
@@ -233,18 +266,19 @@ const buildManualBook = (local: LocalBook): MergedBook => {
     slug,
     title: local.title,
     author: local.author,
-    image: local.coverUrl,
     goodreadsId: local.goodreadsId,
-    goodreadsLink: local.goodreadsLink,
     isbn: local.isbn,
-    amazonAsin: local.amazonAsin,
+    averageRating: local.averageRating,
+    numPages: local.numPages,
+    published: local.published,
+    description: local.description,
     affiliateLink: local.affiliateLink,
     noteSlug: local.noteSlug,
     status,
     source: "manual",
   };
 
-  return applyOverrides(base, local);
+  return base;
 };
 
 const sortByDateRead = (books: MergedBook[]) =>
