@@ -3,96 +3,14 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Main from "@/layouts/Main.astro";
+import { getBooksData } from "@/utils/books";
 
-type GoodreadsBook = {
-  title: string;
-  author: string;
-  link: string;
-  image: string;
-  dateRead?: string;
-  dateReadLabel?: string;
-};
-
-const GOODREADS_USER_ID = "55613653";
 const BOOKS_PER_PAGE = 12;
 
-const stripCdata = (value: string) =>
-  value.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/, "$1").trim();
+const { currentReading, read } = await getBooksData();
 
-const extractTag = (item: string, tag: string) => {
-  const match = item.match(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`));
-  return match ? stripCdata(match[1]) : "";
-};
-
-const parseGoodreadsRss = (xml: string): GoodreadsBook[] => {
-  const items = xml.match(/<item>[\s\S]*?<\/item>/g) ?? [];
-  return items.reduce<GoodreadsBook[]>((acc, item) => {
-    const title = extractTag(item, "title");
-    const author = extractTag(item, "author_name");
-    const link = extractTag(item, "link");
-    const image =
-      extractTag(item, "book_medium_image_url") ||
-      extractTag(item, "book_image_url");
-    const dateRead = extractTag(item, "user_read_at");
-    const dateReadLabel = dateRead
-      ? new Date(dateRead).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        })
-      : undefined;
-
-    if (!title || !author) return acc;
-
-    acc.push({
-      title,
-      author,
-      link,
-      image,
-      dateRead: dateRead || undefined,
-      dateReadLabel,
-    });
-    return acc;
-  }, []);
-};
-
-const fetchShelf = async (shelf: string): Promise<GoodreadsBook[]> => {
-  try {
-    const url = new URL(
-      `https://www.goodreads.com/review/list_rss/${GOODREADS_USER_ID}`
-    );
-    url.searchParams.set("shelf", shelf);
-    if (shelf === "read") {
-      url.searchParams.set("sort", "date_read");
-      url.searchParams.set("order", "d");
-    }
-
-    const response = await fetch(url, {
-      headers: {
-        "User-Agent": "KaziGulamKadarSite/1.0",
-      },
-    });
-    if (!response.ok) return [];
-    const xml = await response.text();
-    return parseGoodreadsRss(xml);
-  } catch {
-    return [];
-  }
-};
-
-const [currentReading, readShelf] = await Promise.all([
-  fetchShelf("currently-reading"),
-  fetchShelf("read"),
-]);
-
-const sortedReadShelf = [...readShelf].sort((a, b) => {
-  const dateA = a.dateRead ? new Date(a.dateRead).getTime() : 0;
-  const dateB = b.dateRead ? new Date(b.dateRead).getTime() : 0;
-  return dateB - dateA;
-});
-
-const initialRead = sortedReadShelf.slice(0, BOOKS_PER_PAGE);
-const readPayload = JSON.stringify(sortedReadShelf).replace(/</g, "\\u003c");
+const initialRead = read.slice(0, BOOKS_PER_PAGE);
+const readPayload = JSON.stringify(read).replace(/</g, "\\u003c");
 ---
 
 <Layout>
@@ -127,8 +45,12 @@ const readPayload = JSON.stringify(sortedReadShelf).replace(/</g, "\\u003c");
                     Currently reading
                   </span>
                   <h3 class="text-lg font-semibold text-foreground">
-                    {book.link ? (
-                      <a href={book.link} target="_blank" rel="noreferrer">
+                    {book.goodreadsLink ? (
+                      <a
+                        href={book.goodreadsLink}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         {book.title}
                       </a>
                     ) : (
@@ -181,8 +103,12 @@ const readPayload = JSON.stringify(sortedReadShelf).replace(/</g, "\\u003c");
                     Read
                   </span>
                   <h3 class="text-lg font-semibold text-foreground">
-                    {book.link ? (
-                      <a href={book.link} target="_blank" rel="noreferrer">
+                    {book.goodreadsLink ? (
+                      <a
+                        href={book.goodreadsLink}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         {book.title}
                       </a>
                     ) : (
@@ -269,9 +195,9 @@ const readPayload = JSON.stringify(sortedReadShelf).replace(/</g, "\\u003c");
             const title = document.createElement("h3");
             title.className = "text-lg font-semibold text-foreground";
 
-            if (book.link) {
+            if (book.goodreadsLink) {
               const link = document.createElement("a");
-              link.href = book.link;
+              link.href = book.goodreadsLink;
               link.target = "_blank";
               link.rel = "noreferrer";
               link.textContent = book.title;
