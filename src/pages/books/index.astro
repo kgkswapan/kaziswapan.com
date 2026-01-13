@@ -73,6 +73,7 @@ const readPayload = JSON.stringify(
         class="mt-6 grid gap-6 md:grid-cols-2"
         data-read-grid
         data-offset={initialRead.length}
+        data-page-size={BOOKS_PER_PAGE}
       >
         {
           initialRead.length > 0 ? (
@@ -140,7 +141,7 @@ const readPayload = JSON.stringify(
 
         if (grid && dataEl && loadMoreBtn && endLabel && sentinel) {
           const allBooks = JSON.parse(dataEl.textContent || "[]");
-          const pageSize = { BOOKS_PER_PAGE };
+          const pageSize = Number(grid.getAttribute("data-page-size")) || 12;
           let offset = Number(grid.getAttribute("data-offset")) || 0;
 
           const createCard = book => {
