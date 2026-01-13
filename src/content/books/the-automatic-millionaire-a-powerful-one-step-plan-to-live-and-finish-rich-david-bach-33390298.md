@@ -1,0 +1,14 @@
+---
+title: "The Automatic Millionaire: A Powerful One-Step Plan to Live and Finish Rich"
+author: "David Bach"
+status: "read"
+goodreadsId: "33390298"
+isbn: "0451499093"
+averageRating: 4.14
+numPages: 297
+published: "2003"
+affiliateLink: ""
+noteSlug: ""
+description: |
+  <b>What’s the secret to becoming a millionaire?</b><br />  <br /> For years people have asked David Bach, the national bestselling author of <i>Smart Women Finish Rich</i>, <i>Smart Couples Finish Rich,</i> and <i>Start Late, Finish Rich</i> what’s the real secret to getting rich? What’s the one thing I need to do?<br />  <br /> <b>Now, in the newly revised <i>The Automatic Millionaire</i>, expanded and updated, David Bach is sharing that secret.</b><br />  <br /> <i>The Automatic Millionaire</i> starts with the powerful story of an average American couple--he’s a low-level manager, she’s a beautician--whose joint income never exceeds $55,000 a year, yet who somehow manage to own two homes debt-free, put two kids through college, and retire at 55 with more than $1 million in savings. Through their story you’ll learn the surprising fact that you cannot get rich with a budget! You have to have a plan to pay yourself first that is totally automatic, a plan that will automatically secure your future and pay for your present.<br />  <br /> <b>What makes <i>The Automatic Millionaire</i> unique:</b><br />  <br /> ·        You don’t need a budget<br /> ·        You don’t need willpower<br /> ·        You don’t need to make a lot of money <br /> ·        You don’t need to be that interested in money<br /> ·        You can set up the plan in an hour<br />  <br /> <b>David </b>gives you a totally realistic system, based on timeless principles, with everything you need to know, including phone numbers, websites and apps, so you can put the secret to becoming an Automatic Millionaire in place from the comfort of your own home. <br />  <br /> This powerful little book has the potential to secure your financial future. Do it once--the rest is automatic!<br />  <br /> <b>#1 New York Times bestseller with over 1.5 Million Copies Sold</b><br />  <br /> <i>The Automatic Millionaire</i> is one of the most popular financial books of our time.  It was a runaway hit when it was first published in 2004, spending thirty-one weeks on the <i>New York Times</i> bestseller list and appearing at at number one simultaneously on the <i>New York Times</i>, <i>USA Today, BusinessWeek,</i> and <i>Wall Street Journal</i> business bestseller lists. It has sold over 1.5 million copies and been translated around the world in over a dozen languages.  This is the first update since 2005 and includes updated information on taxes, investments, technologies and apps to automate your financial life as well as David’s latest systems for making the entire process even easier.
+---
