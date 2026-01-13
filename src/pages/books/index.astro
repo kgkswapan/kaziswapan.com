@@ -49,9 +49,6 @@ const readPayload = JSON.stringify(
                   )}
                 </div>
                 <div class="flex flex-1 flex-col justify-center gap-2">
-                  <span class="text-xs font-semibold tracking-[0.2em] text-accent uppercase">
-                    Currently reading
-                  </span>
                   <h3 class="text-lg font-semibold text-foreground">
                     <a href={`/books/${book.slug}/`}>{book.title}</a>
                   </h3>
@@ -97,9 +94,6 @@ const readPayload = JSON.stringify(
                   )}
                 </div>
                 <div class="flex flex-1 flex-col justify-center gap-2">
-                  <span class="text-xs font-semibold tracking-[0.2em] text-accent uppercase">
-                    Read
-                  </span>
                   <h3 class="text-lg font-semibold text-foreground">
                     <a href={`/books/${book.slug}/`}>{book.title}</a>
                   </h3>
@@ -175,11 +169,6 @@ const readPayload = JSON.stringify(
             const body = document.createElement("div");
             body.className = "flex flex-1 flex-col justify-center gap-2";
 
-            const label = document.createElement("span");
-            label.className =
-              "text-xs font-semibold uppercase tracking-[0.2em] text-accent";
-            label.textContent = "Read";
-
             const title = document.createElement("h3");
             title.className = "text-lg font-semibold text-foreground";
 
@@ -192,7 +181,6 @@ const readPayload = JSON.stringify(
             author.className = "text-sm text-foreground/80";
             author.textContent = book.author;
 
-            body.appendChild(label);
             body.appendChild(title);
             body.appendChild(author);
 
