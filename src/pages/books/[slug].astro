@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { render, getCollection } from "astro:content";
 import type { MergedBook } from "@/utils/books";
 import { getBooksData } from "@/utils/books";
 import getNoteSlug from "@/utils/getNoteSlug";
@@ -8,7 +8,6 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import BackButton from "@/components/BackButton.astro";
 import LinkButton from "@/components/LinkButton.astro";
-import NoteCard from "@/components/NoteCard.astro";
 import RatingStars from "@/components/RatingStars.astro";
 import { SITE } from "@/config";
 
@@ -40,11 +39,12 @@ const cleanDescription = book.description
       .trim()
   : "";
 const hasRating = typeof book.averageRating === "number";
-const notes = book.noteSlug
-  ? (await getCollection("notes")).filter(
+const noteEntry = book.noteSlug
+  ? (await getCollection("notes")).find(
       note => getNoteSlug(note) === book.noteSlug
     )
-  : [];
+  : undefined;
+const noteRender = noteEntry ? await render(noteEntry) : undefined;
 ---
 
 <Layout
@@ -116,14 +116,14 @@ const notes = book.noteSlug
     }
 
     {
-      notes.length > 0 && (
+      noteEntry && noteRender && (
         <section class="section-unstyled mt-12 border-t border-muted/60 px-0 pt-10">
-          <h2 class="text-xl font-semibold text-foreground">Related note</h2>
-          <div class="mt-6 grid gap-6 md:grid-cols-2">
-            {notes.map(note => (
-              <NoteCard note={note} />
-            ))}
-          </div>
+          <h2 class="text-xl font-semibold text-foreground">
+            {noteEntry.data.title}
+          </h2>
+          <article class="app-prose mx-auto mt-6 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)">
+            <noteRender.Content />
+          </article>
         </section>
       )
     }
