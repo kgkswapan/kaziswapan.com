@@ -3,96 +3,24 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Main from "@/layouts/Main.astro";
+import { getBooksData } from "@/utils/books";
+import RatingStars from "@/components/RatingStars.astro";
 
-type GoodreadsBook = {
-  title: string;
-  author: string;
-  link: string;
-  image: string;
-  dateRead?: string;
-  dateReadLabel?: string;
-};
-
-const GOODREADS_USER_ID = "55613653";
 const BOOKS_PER_PAGE = 12;
 
-const stripCdata = (value: string) =>
-  value.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/, "$1").trim();
+const { currentReading, read } = await getBooksData();
 
-const extractTag = (item: string, tag: string) => {
-  const match = item.match(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`));
-  return match ? stripCdata(match[1]) : "";
-};
-
-const parseGoodreadsRss = (xml: string): GoodreadsBook[] => {
-  const items = xml.match(/<item>[\s\S]*?<\/item>/g) ?? [];
-  return items.reduce<GoodreadsBook[]>((acc, item) => {
-    const title = extractTag(item, "title");
-    const author = extractTag(item, "author_name");
-    const link = extractTag(item, "link");
-    const image =
-      extractTag(item, "book_medium_image_url") ||
-      extractTag(item, "book_image_url");
-    const dateRead = extractTag(item, "user_read_at");
-    const dateReadLabel = dateRead
-      ? new Date(dateRead).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        })
-      : undefined;
-
-    if (!title || !author) return acc;
-
-    acc.push({
-      title,
-      author,
-      link,
-      image,
-      dateRead: dateRead || undefined,
-      dateReadLabel,
-    });
-    return acc;
-  }, []);
-};
-
-const fetchShelf = async (shelf: string): Promise<GoodreadsBook[]> => {
-  try {
-    const url = new URL(
-      `https://www.goodreads.com/review/list_rss/${GOODREADS_USER_ID}`
-    );
-    url.searchParams.set("shelf", shelf);
-    if (shelf === "read") {
-      url.searchParams.set("sort", "date_read");
-      url.searchParams.set("order", "d");
-    }
-
-    const response = await fetch(url, {
-      headers: {
-        "User-Agent": "KaziGulamKadarSite/1.0",
-      },
-    });
-    if (!response.ok) return [];
-    const xml = await response.text();
-    return parseGoodreadsRss(xml);
-  } catch {
-    return [];
-  }
-};
-
-const [currentReading, readShelf] = await Promise.all([
-  fetchShelf("currently-reading"),
-  fetchShelf("read"),
-]);
-
-const sortedReadShelf = [...readShelf].sort((a, b) => {
-  const dateA = a.dateRead ? new Date(a.dateRead).getTime() : 0;
-  const dateB = b.dateRead ? new Date(b.dateRead).getTime() : 0;
-  return dateB - dateA;
-});
-
-const initialRead = sortedReadShelf.slice(0, BOOKS_PER_PAGE);
-const readPayload = JSON.stringify(sortedReadShelf).replace(/</g, "\\u003c");
+const initialRead = read.slice(0, BOOKS_PER_PAGE);
+const readPayload = JSON.stringify(
+  read.map(book => ({
+    title: book.title,
+    author: book.author,
+    image: book.image,
+    slug: book.slug,
+    dateReadLabel: book.dateReadLabel,
+    averageRating: book.averageRating,
+  }))
+).replace(/</g, "\\u003c");
 ---
 
 <Layout>
@@ -107,15 +35,17 @@ const readPayload = JSON.stringify(sortedReadShelf).replace(/</g, "\\u003c");
         {
           currentReading.length > 0 ? (
             currentReading.map(book => (
-              <article class="flex flex-col gap-4 rounded-2xl border border-border/70 bg-background/80 p-6 shadow-sm sm:flex-row">
-                <div class="w-full max-w-[96px] overflow-hidden rounded-xl bg-slate-100 shadow-sm dark:bg-slate-800">
+              <article class="flex flex-col gap-4 rounded-2xl border border-border/70 bg-background/80 p-6 shadow-sm sm:flex-row sm:items-center">
+                <div class="w-full max-w-[96px] overflow-hidden rounded-xl border border-border/60">
                   {book.image ? (
-                    <img
-                      src={book.image}
-                      alt={`Cover of ${book.title}`}
-                      class="h-36 w-full object-cover"
-                      loading="lazy"
-                    />
+                    <a href={`/books/${book.slug}/`} class="block">
+                      <img
+                        src={book.image}
+                        alt={`Cover of ${book.title}`}
+                        class="h-36 w-full object-cover"
+                        loading="lazy"
+                      />
+                    </a>
                   ) : (
                     <div class="flex h-36 items-center justify-center text-xs text-muted">
                       No cover
@@ -123,19 +53,13 @@ const readPayload = JSON.stringify(sortedReadShelf).replace(/</g, "\\u003c");
                   )}
                 </div>
                 <div class="flex flex-1 flex-col justify-center gap-2">
-                  <span class="text-xs font-semibold tracking-[0.2em] text-accent uppercase">
-                    Currently reading
-                  </span>
                   <h3 class="text-lg font-semibold text-foreground">
-                    {book.link ? (
-                      <a href={book.link} target="_blank" rel="noreferrer">
-                        {book.title}
-                      </a>
-                    ) : (
-                      book.title
-                    )}
+                    <a href={`/books/${book.slug}/`}>{book.title}</a>
                   </h3>
                   <p class="text-sm text-foreground/80">{book.author}</p>
+                  {typeof book.averageRating === "number" && (
+                    <RatingStars rating={book.averageRating} class="text-xs" />
+                  )}
                 </div>
               </article>
             ))
@@ -147,29 +71,29 @@ const readPayload = JSON.stringify(sortedReadShelf).replace(/</g, "\\u003c");
     </section>
 
     <section class="section-unstyled mt-12 px-0">
-      <div
-        class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between"
-      >
+      <div>
         <h2 class="text-2xl font-semibold text-foreground">Recent reads</h2>
-        <p class="text-sm text-muted">From the Goodreads read shelf.</p>
       </div>
       <div
         class="mt-6 grid gap-6 md:grid-cols-2"
         data-read-grid
         data-offset={initialRead.length}
+        data-page-size={BOOKS_PER_PAGE}
       >
         {
           initialRead.length > 0 ? (
             initialRead.map(book => (
-              <article class="flex flex-col gap-4 rounded-2xl border border-border/70 bg-background/80 p-6 shadow-sm sm:flex-row">
-                <div class="w-full max-w-[96px] overflow-hidden rounded-xl bg-slate-100 shadow-sm dark:bg-slate-800">
+              <article class="flex flex-col gap-4 rounded-2xl border border-border/70 bg-background/80 p-6 shadow-sm sm:flex-row sm:items-center">
+                <div class="w-full max-w-[96px] overflow-hidden rounded-xl border border-border/60">
                   {book.image ? (
-                    <img
-                      src={book.image}
-                      alt={`Cover of ${book.title}`}
-                      class="h-36 w-full object-cover"
-                      loading="lazy"
-                    />
+                    <a href={`/books/${book.slug}/`} class="block">
+                      <img
+                        src={book.image}
+                        alt={`Cover of ${book.title}`}
+                        class="h-36 w-full object-cover"
+                        loading="lazy"
+                      />
+                    </a>
                   ) : (
                     <div class="flex h-36 items-center justify-center text-xs text-muted">
                       No cover
@@ -177,21 +101,15 @@ const readPayload = JSON.stringify(sortedReadShelf).replace(/</g, "\\u003c");
                   )}
                 </div>
                 <div class="flex flex-1 flex-col justify-center gap-2">
-                  <span class="text-xs font-semibold tracking-[0.2em] text-accent uppercase">
-                    Read
-                  </span>
                   <h3 class="text-lg font-semibold text-foreground">
-                    {book.link ? (
-                      <a href={book.link} target="_blank" rel="noreferrer">
-                        {book.title}
-                      </a>
-                    ) : (
-                      book.title
-                    )}
+                    <a href={`/books/${book.slug}/`}>{book.title}</a>
                   </h3>
                   <p class="text-sm text-foreground/80">{book.author}</p>
+                  {typeof book.averageRating === "number" && (
+                    <RatingStars rating={book.averageRating} class="text-xs" />
+                  )}
                   {book.dateReadLabel && (
-                    <p class="text-xs text-muted">
+                    <p class="text-xs text-foreground/70 italic">
                       Finished {book.dateReadLabel}
                     </p>
                   )}
@@ -231,25 +149,30 @@ const readPayload = JSON.stringify(sortedReadShelf).replace(/</g, "\\u003c");
 
         if (grid && dataEl && loadMoreBtn && endLabel && sentinel) {
           const allBooks = JSON.parse(dataEl.textContent || "[]");
-          const pageSize = { BOOKS_PER_PAGE };
+          const pageSize = Number(grid.getAttribute("data-page-size")) || 12;
           let offset = Number(grid.getAttribute("data-offset")) || 0;
 
           const createCard = book => {
             const card = document.createElement("article");
             card.className =
-              "flex flex-col gap-4 rounded-2xl border border-border/70 bg-background/80 p-6 shadow-sm sm:flex-row";
+              "flex flex-col gap-4 rounded-2xl border border-border/70 bg-background/80 p-6 shadow-sm sm:flex-row sm:items-center";
 
             const coverWrap = document.createElement("div");
             coverWrap.className =
-              "w-full max-w-[96px] overflow-hidden rounded-xl bg-slate-100 shadow-sm dark:bg-slate-800";
+              "w-full max-w-[96px] overflow-hidden rounded-xl border border-border/60";
 
             if (book.image) {
+              const link = document.createElement("a");
+              link.href = `/books/${book.slug}/`;
+              link.className = "block";
+
               const img = document.createElement("img");
               img.src = book.image;
               img.alt = `Cover of ${book.title}`;
               img.loading = "lazy";
               img.className = "h-36 w-full object-cover";
-              coverWrap.appendChild(img);
+              link.appendChild(img);
+              coverWrap.appendChild(link);
             } else {
               const placeholder = document.createElement("div");
               placeholder.className =
@@ -261,36 +184,61 @@ const readPayload = JSON.stringify(sortedReadShelf).replace(/</g, "\\u003c");
             const body = document.createElement("div");
             body.className = "flex flex-1 flex-col justify-center gap-2";
 
-            const label = document.createElement("span");
-            label.className =
-              "text-xs font-semibold uppercase tracking-[0.2em] text-accent";
-            label.textContent = "Read";
-
             const title = document.createElement("h3");
             title.className = "text-lg font-semibold text-foreground";
 
-            if (book.link) {
-              const link = document.createElement("a");
-              link.href = book.link;
-              link.target = "_blank";
-              link.rel = "noreferrer";
-              link.textContent = book.title;
-              title.appendChild(link);
-            } else {
-              title.textContent = book.title;
-            }
+            const link = document.createElement("a");
+            link.href = `/books/${book.slug}/`;
+            link.textContent = book.title;
+            title.appendChild(link);
 
             const author = document.createElement("p");
             author.className = "text-sm text-foreground/80";
             author.textContent = book.author;
 
-            body.appendChild(label);
             body.appendChild(title);
             body.appendChild(author);
 
+            if (typeof book.averageRating === "number") {
+              const rounded = Math.round(book.averageRating * 2) / 2;
+              const fullStars = Math.floor(rounded);
+              const hasHalf = rounded % 1 !== 0;
+              const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
+              const ratingWrap = document.createElement("div");
+              ratingWrap.className = "flex items-center gap-1 text-xs";
+              ratingWrap.setAttribute(
+                "aria-label",
+                `Rating ${book.averageRating.toFixed(2)} out of 5`
+              );
+
+              const makeIcon = className => {
+                const icon = document.createElement("i");
+                icon.className = className;
+                icon.setAttribute("aria-hidden", "true");
+                return icon;
+              };
+
+              for (let i = 0; i < fullStars; i += 1) {
+                ratingWrap.appendChild(
+                  makeIcon("fa-solid fa-star text-accent")
+                );
+              }
+              if (hasHalf) {
+                ratingWrap.appendChild(
+                  makeIcon("fa-solid fa-star-half-stroke text-accent")
+                );
+              }
+              for (let i = 0; i < emptyStars; i += 1) {
+                ratingWrap.appendChild(
+                  makeIcon("fa-regular fa-star text-muted")
+                );
+              }
+              body.appendChild(ratingWrap);
+            }
+
             if (book.dateReadLabel) {
               const dateLine = document.createElement("p");
-              dateLine.className = "text-xs text-muted";
+              dateLine.className = "text-xs text-foreground/70 italic";
               dateLine.textContent = `Finished ${book.dateReadLabel}`;
               body.appendChild(dateLine);
             }

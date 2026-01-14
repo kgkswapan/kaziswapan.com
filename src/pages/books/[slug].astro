@@ -1,0 +1,134 @@
+---
+import { render, getCollection } from "astro:content";
+import type { MergedBook } from "@/utils/books";
+import { getBooksData } from "@/utils/books";
+import getNoteSlug from "@/utils/getNoteSlug";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import BackButton from "@/components/BackButton.astro";
+import LinkButton from "@/components/LinkButton.astro";
+import RatingStars from "@/components/RatingStars.astro";
+import { SITE } from "@/config";
+
+interface Props {
+  book: MergedBook;
+}
+
+export async function getStaticPaths() {
+  const { allBooks } = await getBooksData();
+  return allBooks.map(book => ({
+    params: { slug: book.slug },
+    props: { book },
+  }));
+}
+
+const { book } = Astro.props;
+const statusLabel =
+  book.status === "currently-reading" ? "Currently reading" : "Read";
+const descriptionText = book.description
+  ? book.description
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+  : undefined;
+const cleanDescription = book.description
+  ? book.description
+      .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
+      .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, "")
+      .trim()
+  : "";
+const hasRating = typeof book.averageRating === "number";
+const noteEntry = book.noteSlug
+  ? (await getCollection("notes")).find(
+      note => getNoteSlug(note) === book.noteSlug
+    )
+  : undefined;
+const noteRender = noteEntry ? await render(noteEntry) : undefined;
+---
+
+<Layout
+  title={`${book.title} | ${SITE.title}`}
+  description={descriptionText ?? `Book by ${book.author}.`}
+>
+  <Header />
+  <BackButton />
+  <main class="mx-auto mt-6 w-full max-w-app px-4 pb-12" data-pagefind-body>
+    <div class="flex flex-col gap-6 md:flex-row md:items-start">
+      <div
+        class="w-full max-w-[220px] overflow-hidden rounded-2xl border border-border/70 bg-slate-100 shadow-sm dark:bg-slate-900/40"
+      >
+        {
+          book.image ? (
+            <img
+              src={book.image}
+              alt={`Cover of ${book.title}`}
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div class="flex h-64 items-center justify-center text-sm text-muted">
+              No cover available
+            </div>
+          )
+        }
+      </div>
+      <div class="flex flex-1 flex-col gap-3">
+        <span
+          class="text-xs font-semibold tracking-[0.2em] text-accent uppercase"
+        >
+          {statusLabel}
+        </span>
+        <h1 class="text-2xl font-semibold text-foreground sm:text-3xl">
+          {book.title}
+        </h1>
+        <p class="text-base text-foreground/80">{book.author}</p>
+        <div class="mt-2 flex flex-wrap gap-4 text-sm text-foreground/80">
+          {
+            hasRating && (
+              <RatingStars rating={book.averageRating ?? 0} showValue />
+            )
+          }
+          {book.numPages && <span>Pages: {book.numPages}</span>}
+          {book.published && <span>Published: {book.published}</span>}
+          {book.isbn && <span>ISBN: {book.isbn}</span>}
+        </div>
+        {
+          book.affiliateLink && (
+            <div class="mt-4">
+              <LinkButton
+                class="rounded-full border border-accent/70 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
+                href={book.affiliateLink}
+                target="_blank"
+              >
+                Buy on Amazon
+              </LinkButton>
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    {
+      cleanDescription && (
+        <article class="app-prose mx-auto mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)">
+          <div set:html={cleanDescription} />
+        </article>
+      )
+    }
+
+    {
+      noteEntry && noteRender && (
+        <section class="section-unstyled mt-12 border-t border-muted/60 px-0 pt-10">
+          <h2 class="text-xl font-semibold text-foreground">
+            {noteEntry.data.title}
+          </h2>
+          <article class="app-prose mx-auto mt-6 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)">
+            <noteRender.Content />
+          </article>
+        </section>
+      )
+    }
+  </main>
+  <Footer />
+</Layout>

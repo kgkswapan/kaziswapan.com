@@ -1,0 +1,47 @@
+---
+export interface Props {
+  rating: number;
+  class?: string;
+  showValue?: boolean;
+}
+
+const { rating, class: className = "", showValue = false } = Astro.props;
+const rounded = Math.round(rating * 2) / 2;
+const fullStars = Math.floor(rounded);
+const hasHalf = rounded % 1 !== 0;
+const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
+const ratingLabel = rating.toFixed(2);
+---
+
+<div
+  class:list={["flex items-center gap-2 text-sm text-foreground/80", className]}
+>
+  <span
+    class="inline-flex items-center gap-1"
+    aria-label={`Rating ${ratingLabel} out of 5`}
+  >
+    {
+      Array.from({ length: fullStars }).map(() => (
+        <i class="fa-solid fa-star text-accent" aria-hidden="true" />
+      ))
+    }
+    {
+      hasHalf && (
+        <i
+          class="fa-solid fa-star-half-stroke text-accent"
+          aria-hidden="true"
+        />
+      )
+    }
+    {
+      Array.from({ length: emptyStars }).map(() => (
+        <i class="fa-regular fa-star text-muted" aria-hidden="true" />
+      ))
+    }
+  </span>
+  {
+    showValue && (
+      <span class="text-xs text-foreground/70">{ratingLabel} / 5</span>
+    )
+  }
+</div>

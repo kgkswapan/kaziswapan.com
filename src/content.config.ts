@@ -46,4 +46,23 @@ const quotes = defineCollection({
     }),
 });
 
-export const collections = { notes, projects, quotes };
+const books = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/books" }),
+  schema: () =>
+    z.object({
+      title: z.string(),
+      author: z.string(),
+      slug: z.string().optional(),
+      status: z.enum(["read", "currently-reading", "manual"]).optional(),
+      goodreadsId: z.string().optional(),
+      isbn: z.string().optional(),
+      averageRating: z.number().optional(),
+      numPages: z.number().optional(),
+      published: z.string().optional(),
+      affiliateLink: z.string().url().or(z.literal("")).optional(),
+      noteSlug: z.string().optional(),
+      description: z.string().optional(),
+    }),
+});
+
+export const collections = { notes, projects, quotes, books };
