@@ -1,7 +1,7 @@
 ---
 title: "Getting to Yes: Negotiating Agreement without Giving in"
 author: "Roger Fisher"
-status: "currently-reading"
+status: "read"
 goodreadsId: "15774220"
 isbn: "1847940935"
 averageRating: 3.85

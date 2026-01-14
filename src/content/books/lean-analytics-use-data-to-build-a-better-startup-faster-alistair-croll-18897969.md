@@ -1,7 +1,7 @@
 ---
 title: "Lean Analytics: Use Data to Build a Better Startup Faster"
 author: "Alistair Croll"
-status: "currently-reading"
+status: "read"
 goodreadsId: "18897969"
 isbn: "1449335691"
 averageRating: 4.11

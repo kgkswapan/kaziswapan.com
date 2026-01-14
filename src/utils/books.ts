@@ -78,8 +78,9 @@ const parseGoodreadsRss = (xml: string, shelf: BookStatus): GoodreadsBook[] => {
     const author = extractTag(item, "author_name");
     const goodreadsId = extractTag(item, "book_id");
     const image =
-      extractTag(item, "book_image_url") ||
-      extractTag(item, "book_medium_image_url");
+      extractTag(item, "book_large_image_url") ||
+      extractTag(item, "book_medium_image_url") ||
+      extractTag(item, "book_image_url");
     const isbn = extractTag(item, "isbn");
     const averageRatingRaw = extractTag(item, "average_rating");
     const numPagesRaw = extractTag(item, "num_pages");
@@ -115,6 +116,7 @@ const fetchShelf = async (shelf: BookStatus): Promise<GoodreadsBook[]> => {
       `https://www.goodreads.com/review/list_rss/${GOODREADS_USER_ID}`
     );
     url.searchParams.set("shelf", shelf);
+    url.searchParams.set("per_page", "200");
     if (shelf === "read") {
       url.searchParams.set("sort", "date_read");
       url.searchParams.set("order", "d");
@@ -153,7 +155,6 @@ const normalizeLocalBook = (entry: CollectionEntry<"books">): LocalBook => {
 
 const OVERRIDE_KEYS: Array<keyof LocalBook> = [
   "slug",
-  "status",
   "affiliateLink",
   "noteSlug",
 ];
@@ -174,11 +175,6 @@ const applyOverrides = (
       if (!merged.goodreadsId) {
         merged.id = merged.slug;
       }
-      return;
-    }
-
-    if (key === "status") {
-      merged.status = value as BookStatus;
       return;
     }
 
@@ -293,7 +289,11 @@ export const getBooksData = async () => {
     GOODREADS_SHELVES.map(fetchShelf)
   );
 
-  const localEntries = await getCollection("books");
+  const localEntries = (await getCollection("books")).filter(entry => {
+    if (entry.id.startsWith("archived/")) return false;
+    if (entry.filePath && entry.filePath.includes("/archived/")) return false;
+    return true;
+  });
   const localBooks = localEntries.map(normalizeLocalBook);
   const unusedLocals = new Set(localBooks);
 

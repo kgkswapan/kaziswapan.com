@@ -1,7 +1,7 @@
 ---
 title: "User Story Mapping: Discover the Whole Story, Build the Right Product"
 author: "Jeff Patton"
-status: "currently-reading"
+status: "read"
 goodreadsId: "23317497"
 isbn: "1491904879"
 averageRating: 4.32

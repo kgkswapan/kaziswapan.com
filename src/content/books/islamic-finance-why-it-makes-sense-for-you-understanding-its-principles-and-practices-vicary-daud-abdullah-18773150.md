@@ -1,7 +1,7 @@
 ---
 title: "Islamic Finance: Why It Makes Sense (For You)―Understanding its Principles and Practices"
 author: "Vicary Daud Abdullah"
-status: "currently-reading"
+status: "read"
 goodreadsId: "18773150"
 isbn: "9814408220"
 averageRating: 4.67

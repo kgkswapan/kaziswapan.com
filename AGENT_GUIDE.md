@@ -22,6 +22,7 @@ This document gives new contributors (human or AI) an immediate understanding of
   - `src/pages/books/index.astro`: Goodreads + local books listing (currently-reading + read) with infinite scroll for recent reads.
   - `src/pages/books/[slug].astro`: Book detail page (cover, rating, description, optional Amazon button, related note).
 - **Components**: `NoteCard`, `ProjectCard`, `LinkButton`, `SearchInline`, etc. Reuse these for consistency.
+  - `RatingStars`: renders Goodreads-style star ratings for books.
   - Header navigation groups “Quotes”, “Books I am reading”, and “No‑as‑a‑Service” under “Resources”.
 
 ## Commands
