@@ -84,9 +84,11 @@ const noteRender = noteEntry ? await render(noteEntry) : undefined;
         </h1>
         <p class="text-base text-foreground/80">{book.author}</p>
         <div class="mt-2 flex flex-wrap gap-4 text-sm text-foreground/80">
-          {hasRating && (
-            <RatingStars rating={book.averageRating ?? 0} showValue />
-          )}
+          {
+            hasRating && (
+              <RatingStars rating={book.averageRating ?? 0} showValue />
+            )
+          }
           {book.numPages && <span>Pages: {book.numPages}</span>}
           {book.published && <span>Published: {book.published}</span>}
           {book.isbn && <span>ISBN: {book.isbn}</span>}

@@ -112,15 +112,15 @@ const parseGoodreadsRss = (xml: string, shelf: BookStatus): GoodreadsBook[] => {
 
 const fetchShelf = async (shelf: BookStatus): Promise<GoodreadsBook[]> => {
   try {
-  const url = new URL(
-    `https://www.goodreads.com/review/list_rss/${GOODREADS_USER_ID}`
-  );
-  url.searchParams.set("shelf", shelf);
-  url.searchParams.set("per_page", "200");
-  if (shelf === "read") {
-    url.searchParams.set("sort", "date_read");
-    url.searchParams.set("order", "d");
-  }
+    const url = new URL(
+      `https://www.goodreads.com/review/list_rss/${GOODREADS_USER_ID}`
+    );
+    url.searchParams.set("shelf", shelf);
+    url.searchParams.set("per_page", "200");
+    if (shelf === "read") {
+      url.searchParams.set("sort", "date_read");
+      url.searchParams.set("order", "d");
+    }
 
     const response = await fetch(url, {
       headers: {
