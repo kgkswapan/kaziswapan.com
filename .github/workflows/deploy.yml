@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  schedule:
+    # Daily at 02:00 UTC (adjust as needed).
+    - cron: "0 2 * * *"
   workflow_dispatch:
 
 concurrency:
