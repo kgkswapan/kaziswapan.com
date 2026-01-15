@@ -1,7 +1,7 @@
 ---
 title: "Barbarians at the Gate: The Fall of RJR Nabisco"
 author: "Bryan Burrough"
-status: "currently-reading"
+status: "read"
 goodreadsId: "40268935"
 averageRating: 4.49
 numPages: 592

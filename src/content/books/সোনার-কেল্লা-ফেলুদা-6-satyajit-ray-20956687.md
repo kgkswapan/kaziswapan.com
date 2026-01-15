@@ -4,7 +4,7 @@ author: "Satyajit Ray"
 status: "read"
 goodreadsId: "20956687"
 isbn: "8170668875"
-averageRating: 4.37
+averageRating: 4.38
 numPages: 88
 published: "1971"
 affiliateLink: ""

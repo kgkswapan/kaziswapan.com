@@ -111,16 +111,24 @@ const noteRender = noteEntry ? await render(noteEntry) : undefined;
 
     {
       cleanDescription && (
-        <article class="app-prose mx-auto mt-8 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)">
-          <div set:html={cleanDescription} />
-        </article>
+        <section class="section-unstyled mt-10 px-0">
+          <p class="text-xs font-semibold tracking-[0.2em] text-accent uppercase">
+            Description
+          </p>
+          <article class="app-prose mx-auto mt-4 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)">
+            <div set:html={cleanDescription} />
+          </article>
+        </section>
       )
     }
 
     {
       noteEntry && noteRender && (
         <section class="section-unstyled mt-12 border-t border-muted/60 px-0 pt-10">
-          <h2 class="text-xl font-semibold text-foreground">
+          <p class="text-xs font-semibold tracking-[0.2em] text-accent uppercase">
+            My review
+          </p>
+          <h2 class="mt-4 text-xl font-semibold text-foreground">
             {noteEntry.data.title}
           </h2>
           <article class="app-prose mx-auto mt-6 max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)">
