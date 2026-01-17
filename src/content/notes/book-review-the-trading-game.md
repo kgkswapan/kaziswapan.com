@@ -8,6 +8,7 @@ tags:
 draft: false
 timezone: "Europe/Paris"
 ---
+
 I found The Trading Game in a place I didn’t expect: Istanbul Airport.
 
 I was traveling alone from Paris to Dubai via Istanbul, with a few hours to kill on a long layover. I did what I usually do in airports—wander. I walked past the usual luxury stores, cafés, and duty-free aisles, and eventually ended up at a small bookstore tucked away in a corner.
