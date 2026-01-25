@@ -10,6 +10,7 @@ embedMap: ""
 ---
 
 ---
+
 ## Overview
 
 It is impossible to predict the future. Any valuation model is wrong by definition because it simplifies a reality that has not happened yet. Still, investors must make decisions. This paper is my attempt to explain, in simple language, how venture capital firms usually value young companies and why the problem is harder than valuing mature public firms.
@@ -20,10 +21,10 @@ It is impossible to predict the future. Any valuation model is wrong by definiti
 
 Startup valuation is not a clean math problem. Early-stage companies often have:
 
-- limited operating history  
-- unstable or negative cash flows  
-- uncertain business model and market size  
-- very high uncertainty and a wide range of outcomes  
+- limited operating history
+- unstable or negative cash flows
+- uncertain business model and market size
+- very high uncertainty and a wide range of outcomes
 
 Because of these realities, methods that work well for mature firms can become misleading for startups. In practice, investors often aim for a **defensible valuation range**, not one “precise” number.
 
@@ -33,10 +34,10 @@ Because of these realities, methods that work well for mature firms can become m
 
 I wanted one place where the most common VC valuation approaches are explained clearly:
 
-- what each method tries to do  
-- what inputs it needs  
-- when it makes sense  
-- where it usually breaks down in early-stage investing  
+- what each method tries to do
+- what inputs it needs
+- when it makes sense
+- where it usually breaks down in early-stage investing
 
 This paper is written for finance learners and practitioners who want a practical understanding of how valuation is done when uncertainty is high and data is limited.
 
@@ -46,15 +47,16 @@ This paper is written for finance learners and practitioners who want a practica
 
 The paper explains why young companies are difficult to value and then summarizes the methods most commonly used by venture capital and other early-stage investors, including:
 
-- **Discounted Cash Flow (DCF)** and why it is difficult for startups  
-- **Comparable Company Analysis** and the problem of finding “true” comparables  
-- **The Venture Capital Method** (return targets, exit assumptions, and dilution logic)  
-- **The First Chicago Method** (scenario-based valuation under uncertainty)  
-- Practical adjustments and complementary ideas, including **scenario thinking** and **real options**, to make valuations more realistic  
+- **Discounted Cash Flow (DCF)** and why it is difficult for startups
+- **Comparable Company Analysis** and the problem of finding “true” comparables
+- **The Venture Capital Method** (return targets, exit assumptions, and dilution logic)
+- **The First Chicago Method** (scenario-based valuation under uncertainty)
+- Practical adjustments and complementary ideas, including **scenario thinking** and **real options**, to make valuations more realistic
 
 The goal is not to claim any model is “correct.” The goal is to understand how investors build a valuation story that is defensible.
 
 ---
+
 ## Publication
 
 - **Platform:** SSRN
