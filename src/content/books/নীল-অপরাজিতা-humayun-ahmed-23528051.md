@@ -3,7 +3,7 @@ title: "নীল অপরাজিতা"
 author: "Humayun Ahmed"
 status: "read"
 goodreadsId: "23528051"
-averageRating: 3.24
+averageRating: 3.25
 numPages: 70
 affiliateLink: ""
 noteSlug: ""

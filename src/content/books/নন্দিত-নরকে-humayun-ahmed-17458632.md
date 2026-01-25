@@ -3,7 +3,7 @@ title: "নন্দিত নরকে"
 author: "Humayun Ahmed"
 status: "read"
 goodreadsId: "17458632"
-averageRating: 4.22
+averageRating: 4.21
 numPages: 70
 published: "1972"
 affiliateLink: ""

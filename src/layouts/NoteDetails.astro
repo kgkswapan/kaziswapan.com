@@ -6,6 +6,7 @@ import Footer from "@/components/Footer.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
 import Datetime from "@/components/Datetime.astro";
+import LinkButton from "@/components/LinkButton.astro";
 import { SITE } from "@/config";
 import { slugifyStr } from "@/utils/slugify";
 import noteFilter from "@/utils/noteFilter";
@@ -36,6 +37,7 @@ const nextNote =
     ? sortedNotes[currentIndex + 1]
     : undefined;
 
+const noteSlug = getNoteSlug(note);
 const getHref = (noteEntry: CollectionEntry<"notes">) =>
   `/notes/${getNoteSlug(noteEntry)}/`;
 
@@ -51,6 +53,16 @@ const relatedProject = projects.find(project => {
 const relatedProjectHref = relatedProject
   ? `/projects/${getProjectSlug(relatedProject)}/`
   : undefined;
+
+const books = await getCollection("books");
+const relatedBook = books.find(book => {
+  if (book.id.startsWith("archived/")) return false;
+  return book.data.noteSlug && book.data.noteSlug === noteSlug;
+});
+const affiliateLink =
+  typeof relatedBook?.data.affiliateLink === "string"
+    ? relatedBook.data.affiliateLink
+    : "";
 ---
 
 <Layout {...layoutProps}>
@@ -74,6 +86,19 @@ const relatedProjectHref = relatedProject
     >
       <Content />
     </article>
+    {
+      affiliateLink && (
+        <div class="mt-8">
+          <LinkButton
+            class="inline-flex items-center gap-2 rounded-full border border-accent/70 px-4 py-2 text-sm font-semibold text-accent transition hover:-translate-y-0.5 hover:border-accent"
+            href={affiliateLink}
+            target="_blank"
+          >
+            Buy on Amazon
+          </LinkButton>
+        </div>
+      )
+    }
     {
       relatedProject && relatedProjectHref && (
         <section class="bg-surface/40 mt-10 rounded-2xl border border-muted/60 p-6">

@@ -41,7 +41,7 @@ Visit <http://localhost:4321>. Use `npm run build` before committing to ensure A
 ## Security & Contribution
 
 - See [`SECURITY.md`](SECURITY.md) for reporting instructions and safe-handling guidelines.
-- New contributors/agents should read [`AGENT_GUIDE.md`](AGENT_GUIDE.md) for commands and workflow expectations.
+- New contributors/agents should read [`AGENT_GUIDE.md`](project-docs/AGENT_GUIDE.md) for commands and workflow expectations.
 
 ## License
 
