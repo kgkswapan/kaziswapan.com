@@ -4,7 +4,7 @@ author: "Joel Greenblatt"
 status: "read"
 goodreadsId: "75889"
 isbn: "0471733067"
-averageRating: 3.96
+averageRating: 3.97
 numPages: 176
 published: "1999"
 affiliateLink: ""

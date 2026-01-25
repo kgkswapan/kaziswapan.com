@@ -4,7 +4,7 @@ author: "Humayun Ahmed"
 status: "read"
 goodreadsId: "21751968"
 isbn: "9845021840"
-averageRating: 3.59
+averageRating: 3.60
 numPages: 96
 published: "2014"
 affiliateLink: ""

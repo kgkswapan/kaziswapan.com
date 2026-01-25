@@ -7,7 +7,7 @@ isbn: "0316478520"
 averageRating: 4.00
 numPages: 388
 published: "2019"
-affiliateLink: ""
+affiliateLink: "https://amzn.to/4jWFzS5"
 noteSlug: ""
 description: |
   <b>Malcolm Gladwell, host of the podcast Revisionist History and author of the #1 New York Times bestseller <i>Outliers</i>, offers a powerful examination of our interactions with strangers -- and why they often go wrong.</b><br /><br />How did Fidel Castro fool the CIA for a generation? Why did Neville Chamberlain think he could trust Adolf Hitler? Why are campus sexual assaults on the rise? Do television sitcoms teach us something about the way we relate to each other that isn't true?<br /><br />While tackling these questions, Malcolm Gladwell was not solely writing a book for the page. He was also producing for the ear. In the audiobook version of Talking to Strangers, you'll hear the voices of people he interviewed--scientists, criminologists, military psychologists. Court transcripts are brought to life with re-enactments. You actually hear the contentious arrest of Sandra Bland by the side of the road in Texas. As Gladwell revisits the deceptions of Bernie Madoff, the trial of Amanda Knox, and the suicide of Sylvia Plath, you hear directly from many of the players in these real-life tragedies. There's even a theme song - Janelle Monae's "Hell You Talmbout."<br /><br />Something is very wrong, Gladwell argues, with the tools and strategies we use to make sense of people we don't know. And because we don't know how to talk to strangers, we are inviting conflict and misunderstanding in ways that have a profound effect on our lives and our world.
