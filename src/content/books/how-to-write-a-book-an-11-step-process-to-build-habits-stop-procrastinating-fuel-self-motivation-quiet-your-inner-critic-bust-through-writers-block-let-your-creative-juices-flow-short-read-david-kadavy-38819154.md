@@ -3,7 +3,7 @@ title: "How to Write a Book: An 11-Step Process to Build Habits, Stop Procrastin
 author: "David Kadavy"
 status: "read"
 goodreadsId: "38819154"
-averageRating: 3.81
+averageRating: 3.82
 numPages: 48
 affiliateLink: ""
 noteSlug: ""

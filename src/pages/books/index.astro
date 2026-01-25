@@ -5,6 +5,7 @@ import Footer from "@/components/Footer.astro";
 import Main from "@/layouts/Main.astro";
 import { getBooksData } from "@/utils/books";
 import RatingStars from "@/components/RatingStars.astro";
+import BackToTopButton from "@/components/BackToTopButton.astro";
 
 const BOOKS_PER_PAGE = 12;
 
@@ -141,13 +142,22 @@ const readPayload = JSON.stringify(
         set:html={readPayload}
       />
       <script is:inline>
-        const grid = document.querySelector("[data-read-grid]");
-        const dataEl = document.querySelector("#read-books-data");
-        const loadMoreBtn = document.querySelector("[data-read-more]");
-        const endLabel = document.querySelector("[data-read-end]");
-        const sentinel = document.querySelector("[data-read-sentinel]");
+        const initReadShelf = () => {
+          const grid = document.querySelector("[data-read-grid]");
+          const dataEl = document.querySelector("#read-books-data");
+          const loadMoreBtn = document.querySelector("[data-read-more]");
+          const endLabel = document.querySelector("[data-read-end]");
+          const sentinel = document.querySelector("[data-read-sentinel]");
 
-        if (grid && dataEl && loadMoreBtn && endLabel && sentinel) {
+          if (!grid || !dataEl || !loadMoreBtn || !endLabel || !sentinel) {
+            return;
+          }
+
+          if (grid.dataset.infiniteReady === "true") {
+            return;
+          }
+          grid.dataset.infiniteReady = "true";
+
           const allBooks = JSON.parse(dataEl.textContent || "[]");
           const pageSize = Number(grid.getAttribute("data-page-size")) || 12;
           let offset = Number(grid.getAttribute("data-offset")) || 0;
@@ -281,9 +291,13 @@ const readPayload = JSON.stringify(
             loadMoreBtn.classList.add("hidden");
             endLabel.classList.remove("hidden");
           }
-        }
+        };
+
+        initReadShelf();
+        document.addEventListener("astro:after-swap", initReadShelf);
       </script>
     </section>
+    {read.length > BOOKS_PER_PAGE && <BackToTopButton floatingOnly />}
   </Main>
   <Footer />
 </Layout>
