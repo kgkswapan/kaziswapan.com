@@ -5,6 +5,7 @@ import Footer from "@/components/Footer.astro";
 import Main from "@/layouts/Main.astro";
 import { getBooksData } from "@/utils/books";
 import RatingStars from "@/components/RatingStars.astro";
+import BackToTopButton from "@/components/BackToTopButton.astro";
 
 const BOOKS_PER_PAGE = 12;
 
@@ -296,6 +297,7 @@ const readPayload = JSON.stringify(
         document.addEventListener("astro:after-swap", initReadShelf);
       </script>
     </section>
+    {read.length > BOOKS_PER_PAGE && <BackToTopButton floatingOnly />}
   </Main>
   <Footer />
 </Layout>
